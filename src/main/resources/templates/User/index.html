@@ -1,0 +1,307 @@
+<html lang="en">
+
+<head>
+
+	<title>index</title>
+
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+
+</head>
+
+<body class="bg-gray-100">
+	<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+	
+
+	<div class=" " style="padding-top: 100px;">
+		
+		<div class="background-image relative isolate px-6 pt-14 lg:px-8">
+
+			<div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+				aria-hidden="true">
+				<div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+					style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
+				</div>
+			</div>
+			
+			</div>
+			<div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+				aria-hidden="true">
+				<div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+					style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container my-5 max-w-7xl">
+
+		<div class="row sale-bar">
+			<div class="col-sm-6">
+				<div class="card bg-brown">
+					<div class="card-body d-flex">
+						<div class="col-4 img-card">
+							<img src="https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-ljzfxmt2q1vm04">
+						</div>
+						<div class="col-8 pl-2 text-light">
+							<h5 class="card-title">Khuyến mãi trong ngày</h5>
+							<h1 class="card-text" style="font-weight: 800; font-size: 45px;">20% sale</h1>
+							<a href="#" class="btn align-items-center">Đặt hàng ngay!</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="card bg-brown">
+					<div class="card-body d-flex">
+						<div class="col-4 img-card">
+							<img src="https://bizweb.dktcdn.net/100/472/501/collections/dong-ho-nam-iw-carnival-708g-chinh-hang-dd-5.jpg?v=1689331474973" >
+						</div>
+						<div class="col-8 pl-2 text-light">
+							<h5 class="card-title">Ngày đồng hồ</h5>
+							<h1 class="card-text" style="font-weight: 800; font-size: 45px;">15% sale</h1>
+							<a href="#" class="btn align-items-center">Đặt hàng ngay!</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div>
+		<div th:each="order : ${orders}">
+			<div th:if="${order.orderStatus == 'PAYING'}">
+				<div class="alert alert-success alert-dismissible fade show translate-middle-x position-fixed top-10" role="alert" style="left:  310;">
+					
+					<span class="badge bg-success"> <strong>Bạn có đơn hàng đã được giao đến vui lòng nhận hàng!</strong></span>
+					<h6 class="mt-2">
+						<a href="/order" class="btn btn-success">Đến đơn hàng</a>
+					</h6>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<section>
+
+		<div class="text-center mb-3">
+			<h2 style="font-weight: 700; font-size: 28px;" class="text-brown">Sản phẩm yêu thích</h2>
+		</div>
+
+		<div class="container max-w-7xl">
+			<div class="row">
+				<div class=" col-sm-6 col-lg-4" th:each="pinned : ${pinnedProducts}">
+					<div class="bg-dark text-light prod-box rounded overflow-hidden position-relative" >
+					<span class="position-absolute bg-danger px-1 m-1 rounded" th:if="${pinned.product.promotionalPrice != null}" th:text="${T(java.lang.Math).round((1 - pinned.product.promotionalPrice / pinned.product.price) * 100)} + '%'"></span>
+						
+						<div>
+							<div class="img-box prod-header"
+								style="height: 250px; background-color: #ffffff; border-radius: 0px 0px 0px 50px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+								<a  th:href="@{/productDetail/{id} (id =${pinned.product.id})}" class="w-100 h-auto">
+									<img th:src="${pinned.product.image}"
+									style="height: 100%; width: 100%; object-fit: cover;" alt="">
+								</a>
+								
+							</div>
+
+							<div class="detail-box p-2 d-flex">
+								<div class="col-8 p-1">
+									<a class="text-light" style="font-weight: 600;" th:href="@{/productDetail/{id} (id =${pinned.product.id})}" th:text="${pinned.product.name}">
+									</a>
+									<div class="options">
+										<h6 th:if="${pinned.product.promotionalPrice ne null}">
+											<!-- Hiển thị giá giảm -->
+											<text class="text-danger fs-5"
+												th:text="${#numbers.formatDecimal(pinned.product.promotionalPrice, 0, 'POINT', 0, 'POINT') + 'VND'}">
+											</text>
+											<!-- Hiển thị giá gốc với giảm giá -->
+
+											<del
+												th:text="${#numbers.formatDecimal(pinned.product.price, 0, 'POINT', 0, 'POINT') + 'VND'}"></del>
+
+										</h6>
+										<!-- Nếu không có giá giảm, chỉ hiển thị giá gốc -->
+										<h6 th:unless="${pinned.product.promotionalPrice ne null}"
+											th:text="${#numbers.formatDecimal(pinned.product.price, 0, 'POINT', 0, 'POINT') + 'VND'}">
+										</h6>
+									</div>
+								</div>
+								<div class="col-5 p-3 justify-center d-flex">
+
+									<th:block th:if="${pinned.product.status}">
+										<a th:href="@{/cart/add-to-cart(productId=${pinned.product.id})}"
+											class="btn btn-brown d-flex justify-center align-items-center" 
+											style="width: 40px; height: 40px; border-radius: 50%;">
+											<i class="fa-solid fa-cart-shopping"></i>
+										</a>
+
+									</th:block>
+									<th:block th:unless="${pinned.product.status}">
+										<div class="border bg-danger p-2 px-3" style="border-radius: 20px;">
+
+											<span>Hết hàng</span>
+											<i class="fa-solid fa-exclamation"></i>
+										</div>
+									</th:block>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex justify-center">
+				<a style="border-radius: 20px;" class="btn btn-brown" href="/menu">xem thêm <i
+						class="fa-solid fa-angles-right"></i></a>
+			</div>
+
+	</section>
+
+	<section class="about_section layout_padding bg-dark text-light mt-5 p-4">
+		<div class="container  ">
+
+			<div class="row">
+				<div class="col-md-6 ">
+					<div class="img-box">
+						<img src="/User/images/watch-logo2.png"
+							style="width: 50%;" alt="" class="rounded">
+					</div>
+				</div>
+				<div class="col-md-6 d-flex align-items-center">
+					<div>
+						<div class="heading_container">
+							<h1 class="fs-2 fw-bold">
+							Clock – Tinh hoa của thời gian
+							</h1>
+						</div>
+						<p>
+							Clock là cửa hàng chuyên cung cấp các mẫu đồng hồ chính hãng, sang trọng và tinh tế. Tại đây, bạn sẽ tìm thấy từ những thiết kế cổ điển đến hiện đại, phù hợp với mọi phong cách và dịp đặc biệt. Chúng tôi cam kết mang đến sản phẩm chất lượng cùng dịch vụ tận tâm, giúp bạn khẳng định dấu ấn cá nhân qua từng khoảnh khắc.
+						</p>
+						<a class="btn btn-brown rounded"  href="">
+							Xem sản phẩm
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="">
+		<div class="container py-24 sm:py-32 ">
+			<div class="mx-auto max-w-7xl px-6 lg:px-8">
+				<div class="mx-auto lg:mx-0">
+					<h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Chúng tôi là ai</h2>
+					<p class="mt-2 text-lg leading-8 text-gray-600">tất cả thông tin về chúng tôi tại cửa hàng</p>
+				</div>
+				<div
+					class=" mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+					<article class="flex max-w-xl flex-col items-start justify-between bg-light p-3"
+						style="border-radius: 20px;">
+						<div class="flex items-center gap-x-4 text-xs">
+							<time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+							<a href="#"
+								class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
+						</div>
+						<div class="group relative">
+							<h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+								<h5>
+									<span class="absolute inset-0"></span>
+									Admin
+								</h5>
+							</h3>
+						</div>
+						<div class="relative mt-8 flex items-center gap-x-4">
+							<img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+								alt="" class="h-20 w-20 rounded-full bg-gray-50">
+							<div class="text-sm leading-6">
+								<p class="font-semibold text-gray-900">
+									<a style="font-weight: 700; font-size: larger;">
+										<span class="absolute inset-0"></span>
+										Michael Foster
+									</a>
+								</p>
+								<p class="text-gray-600">Co-Founder / CTO</p>
+							</div>
+						</div>
+					</article>
+
+					<article class="flex max-w-xl flex-col items-start justify-between bg-light p-3"
+						style="border-radius: 20px;">
+						<div class="flex items-center gap-x-4 text-xs">
+							<time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+							<a href="#"
+								class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
+						</div>
+						<div class="group relative">
+							<h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+								<h5>
+									<span class="absolute inset-0"></span>
+									Admin
+								</h5>
+							</h3>
+						</div>
+						<div class="relative mt-8 flex items-center gap-x-4">
+							<img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+								alt="" class="h-20 w-20 rounded-full bg-gray-50">
+							<div class="text-sm leading-6">
+								<p class="font-semibold text-gray-900">
+									<a style="font-weight: 700; font-size: larger;">
+										<span class="absolute inset-0"></span>
+										Michael Foster
+									</a>
+								</p>
+								<p class="text-gray-600">Co-Founder / CTO</p>
+							</div>
+						</div>
+					</article>
+
+					<article class="flex max-w-xl flex-col items-start justify-between bg-light p-3"
+						style="border-radius: 20px;">
+						<div class="flex items-center gap-x-4 text-xs">
+							<time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+							<a href="#"
+								class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
+						</div>
+						<div class="group relative">
+							<h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+								<h5>
+									<span class="absolute inset-0"></span>
+									Admin
+								</h5>
+							</h3>
+						</div>
+						<div class="relative mt-8 flex items-center gap-x-4">
+							<img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+								alt="" class="h-20 w-20 rounded-full bg-gray-50">
+							<div class="text-sm leading-6">
+								<p class="font-semibold text-gray-900">
+									<a style="font-weight: 700; font-size: larger;">
+										<span class="absolute inset-0"></span>
+										Michael Foster
+									</a>
+								</p>
+								<p class="text-gray-600">Co-Founder / CTO</p>
+							</div>
+						</div>
+					</article>
+					<!-- More posts... -->
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+
+	<th:block th:insert="~{User/fragment/layout :: cart-box}"></th:block>
+
+
+
+</body>
+
+</html>

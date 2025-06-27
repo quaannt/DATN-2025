@@ -1,0 +1,45 @@
+<html lang="en">
+<html>
+
+<head>
+	<title> Confirm </title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+	<link href="User/css/login.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+
+<body class="sub_page" style="background-color: rgb(226, 226, 226);">
+	<div class="back-ground_navbar">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+	</div>
+
+	<div class="container  max-w-7xl">
+		<div class="col-12 d-flex justify-center my-2">
+			<div class="card  bg-white animate__animated animate__bounceIn" style=" width: 500px; border-radius: 20px;">
+				<div class="d-flex justify-center text-success align-items-center" style="height: 200px;">
+					<i style="scale: 10" class="fa-regular fa-circle-check"></i>
+				</div>
+
+				<div class="alert alert-success text-center" role="alert">
+					Đơn hàng sẽ đến trong vòng 20p.
+				</div>
+				<div class="d-flex justify-center mb-2">
+					<a class="btn btn-outline-success mr-2">Về trang chủ</a>
+					<a class="btn btn-success">Đơn hàng</a>
+				</div>
+
+			</div>
+		</div>
+		<div class="container  max-w-7xl">
+			<div class="card h-2 mb-2">
+				
+			</div>
+			
+		</div>
+	</div>
+
+
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+</body>
+
+</html>

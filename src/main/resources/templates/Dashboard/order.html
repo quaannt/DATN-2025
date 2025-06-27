@@ -1,0 +1,129 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>
+		Order
+	</title>
+	<th:block th:insert="~{Dashboard/fragment/layout :: head}"></th:block>
+</head>
+
+<body>
+	<div class="wrapper ">
+		<div class="sidebar" data-color="white" data-active-color="danger">
+
+			<th:block th:insert="~{Dashboard/fragment/layout :: bar}"></th:block>
+			<div class="main-panel">
+				<!-- Navbar -->
+				<th:block th:insert="~{Dashboard/fragment/layout :: navtop}"></th:block>
+				<!-- End Navbar -->
+
+				<div class="content">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-info alert-dismissible fade show" th:if="${success != null}">
+									<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<i class="nc-icon nc-simple-remove"></i>
+									</button>
+									<span><b th:text="${success}"> </b> </span>
+								</div>
+								<div class="alert alert-danger alert-dismissible fade show" th:if="${danger != null}">
+									<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<i class="nc-icon nc-simple-remove"></i>
+									</button>
+									<span><b th:text="${danger}"> </b></span>
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="card">
+									<div class="Card-header">
+										<h4 class="card-title">Quản lý đơn hàng</h4>
+									</div>
+									<div class="input-group no-border col-12">
+										<input type="text" value="" class="form-control"
+											placeholder="Tìm kiếm đơn hàng theo email, ID...">
+										<div class="input-group-append">
+											<div class="input-group-text">
+												<i class="nc-icon nc-zoom-split"></i>
+											</div>
+										</div>
+									</div>
+									<div class="col-12">
+										<table class="table ">
+											<thead>
+												<tr>
+													<th scope="col">ID</th>
+													<th scope="col">Số điện thoại</th>
+													<th scope="col">Tổng thanh toán</th>
+													<th scope="col">Khách hàng</th>
+													<th scope="col">Trạng thái đơn hàng</th>
+													<th scope="col"></th>
+													<th scope="col">Hành động</th>
+												</tr>
+											</thead>
+											<tbody>
+
+												<tr th:each="order : ${orders}">
+													<td th:text="${order.id}"></td>
+													<td th:text="${order.address.phoneNumber}"></td>
+													<td
+														th:text="${#numbers.formatDecimal(order.totalPaymentAmount, 0, 'POINT', 0, 'POINT') + 'VND'}">
+													</td>
+													<td th:text="${order.user.email}"></td>
+													<td>
+														<span class="badge bg-secondary"
+															th:if="${order.orderStatus eq 'APPLYING'}">Đang lên
+															đơn</span>
+														<span class="badge bg-success"
+															th:if="${order.orderStatus eq 'SHIPPING'}">Đang giao
+															hàng</span>
+															<span class="badge bg-success"
+															th:if="${order.orderStatus eq 'PAYING'}">Đã đến, đang đợi nhận hàng</span>
+														<span class="badge bg-primary"
+															th:if="${order.orderStatus eq 'RECEIVED'}">Đã nhận
+															hàng</span>
+														<span class="badge bg-danger"
+															th:if="${order.orderStatus eq 'CANCELLED'}">Đã hủy đơn</span>
+
+														<span class="badge bg-secondary"
+															th:if="${order.paymentStatus eq 'UNPAID'}">Chưa thanh
+															toán</span>
+															<span class="badge bg-primary"
+															th:if="${order.paymentStatus eq 'PAID'}">Đã thanh
+															toán</span>
+														
+
+													</td>
+													<td class="text-center">
+													</td>
+													<td>
+														<a th:href="@{/dashboard/order/{id} (id=${order.id})}"
+															class="btn btn-success">
+															<i class="fa-solid fa-eye"></i>
+														</a>
+														<a th:href="@{/dashboard/order/delete/{id} (id=${order.id})}"
+															class="btn btn-danger">
+															<i class="fa-solid fa-trash"></i>
+														</a>
+													</td>
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{Dashboard/fragment/layout :: footer}"></th:block>
+
+</body>

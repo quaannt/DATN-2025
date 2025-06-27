@@ -1,0 +1,34 @@
+.cart .cart-box{
+	margin-top: 20px;
+	height: auto;
+
+}
+
+.cart .cart-box .product-box{
+	width: 100%;
+	height: 100px;
+	background-color: white;
+	border-radius: 20px;
+	
+}
+
+.cart .cart-box .product-box .commend1-box{
+	width: 100%;
+	border-bottom: 1px solid black;
+}
+
+.cart .cart-box .product-box h5{
+	font-weight: 600;
+	font-size: medium;
+}
+
+.cart .cart-box .product-box span{
+	font-weight: 600;
+	font-size: small;
+	}
+
+.cart .address-box{
+
+	height: 300px;
+	background-color: blue;
+}

@@ -1,0 +1,286 @@
+<html lang="en">
+<html>
+
+<head>
+	<title>Order</title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+</head>
+
+<body class="sub_page">
+	<div class="back-ground_navbar">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+	</div>
+
+
+	<div class="container max-w-7xl mb-3" style="margin-top: 180px;">
+		<div class="row">
+			<div class="col-3">
+				<div class="card p-2">
+					<div class="mb-2">
+						<h4 style="font-weight: 600; font-size: 20px;">Tài khoản của tôi</h4>
+					</div>
+
+					<div>
+						<div class="list-group ">
+							<a href="/information"
+								class="list-group-item list-group-item-action list-group-item-action ">Thông tin cá
+								nhân</a>
+
+							<a href="/order" class="list-group-item list-group-item-secondary "
+								style="font-weight: 600;">Thông tin đơn hàng</a>
+							<a href="#" class="list-group-item list-group-item-action ">Đổi mật khẩu</a>
+							<a  href="/logout" class="list-group-item list-group-item-action bg-danger"
+								style="color: white;">Đăng xuất</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-9">
+				<div>
+					<div class="my-3">
+						<h3 class="text-brown" style="font-weight: 800; font-size: 30px;">QUẢN LÝ ĐƠN HÀNG</h3>
+					</div>
+					<div class="col-md-12">
+						<div class="alert alert-info alert-dismissible fade show" th:if="${success != null}">
+							<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<i class="nc-icon nc-simple-remove"></i>
+							</button>
+							<span><b th:text="${success}"> </b> </span>
+						</div>
+						<div class="alert alert-danger alert-dismissible fade show" th:if="${danger != null}">
+							<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<i class="nc-icon nc-simple-remove"></i>
+							</button>
+							<span><b th:text="${danger}"> </b></span>
+						</div>
+					</div>
+					<div class="card border" style="height: 500px; overflow-y: auto;">
+						<div class="accordion" id="accordionExample">
+							<div class="accordion-item" th:attr="id='accordionItem' + ${order.id}"
+								th:each="order : ${orders}">
+								<h2 class="accordion-header" th:attr="id='headingOne' + ${order.id}">
+									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+										aria-expanded="true"
+										th:attr="data-bs-target='#collapseOne' + ${order.id}, aria-controls='#collapseOne' + ${order.id}">
+
+										<div class="container d-flex text-black">
+
+											<div class="col-9">
+												<h6><a style="font-size: 13px;">Mã đơn hàng: </a> <a
+														th:text="'#' + ${order.id}"
+														style="color: red; font-weight: 600;"></a></h6>
+												<h6><a style="font-size: 13px;">Tên người nhận: </a>
+													<a style="color: #18481ae5;; font-weight: 600;"
+														th:text="${order.user.username}"></a>
+												</h6>
+												<h6><a style="font-size: 13px;">Số điện thoại người nhận: </a>
+													<a style="color: black; font-weight: 600;"
+														th:text="${order.address.phoneNumber}"></a>
+												</h6>
+											</div>
+											<div th:if="${order.orderStatus == 'PAYING'}">
+												<span
+													class="position-absolute top-0 start-0 ml-2 translate-middle p-2 bg-danger border border-light rounded-circle">
+													<span class="visually-hidden">New alerts</span>
+											</div>
+											<div class="col-3">
+												<span class="badge bg-secondary"
+													th:if="${order.orderStatus eq 'APPLYING'}">Đang lên
+													đơn</span>
+												<span class="badge bg-success"
+													th:if="${order.orderStatus eq 'SHIPPING'}">Đang giao
+													hàng</span>
+												<span class="badge bg-success"
+													th:if="${order.orderStatus eq 'PAYING'}">Đơn hàng đã đến, vui lòng
+													nhận hàng!</span>
+												<span class="badge bg-primary"
+													th:if="${order.orderStatus eq 'RECEIVED'}">Đã nhận
+													hàng</span>
+
+												<span class="badge bg-danger"
+													th:if="${order.orderStatus eq 'CANCELLED'}">Đã hủy đơn</span>
+
+												<span class="badge bg-success mt-1"
+													th:if="${order.paymentMethod == 'CASH_ON_DELIVERY'}">Thanh toán khi nhận hàng</span>
+													<span class="badge bg-success mt-1"
+													th:if="${order.paymentMethod == 'CASH_ONLINE'}">Thanh toán online</span>
+												<div th:if="${order.hasDiscountApplied() == true}">
+													<span class="badge bg-info mt-1"> Mã giảm giá
+														<i class="fa-solid fa-tags"></i>
+													</span>
+												</div>
+												<h6> <a th:text="${#numbers.formatDecimal(order.totalPaymentAmount, 0, 'POINT', 0, 'POINT') + 'VND'}"
+														style="color: red; font-size: 23px; font-weight: 600;"></a>
+												</h6>
+											</div>
+										</div>
+									</button>
+								</h2>
+								<div th:attr="id='collapseOne' + ${order.id}, aria-labelledby='headingOne' + ${order.id}"
+									class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<table class="table">
+											<thead>
+												<tr>
+													<th scope="col"></th>
+													<th scope="col">Tên món</th>
+													<th scope="col">Giá</th>
+													<th scope="col">Số lượng</th>
+													<th scope="col">Tổng tiền</th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="orderDetail : ${order.orderDetails}">
+													<td><img th:src="${orderDetail.orderProduct.image}"
+															style="width: 60px; height: 40px; border-radius: 12px;">
+													</td>
+													<td th:text="${orderDetail.orderProduct.name}"></td>
+													<td>
+														
+														<span
+															
+															th:text="${#numbers.formatDecimal(orderDetail.orderProduct.price, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+													</td>
+													<td th:text="${orderDetail.quantity}"></td>
+													<td>
+														<span
+															th:text="${#numbers.formatDecimal(orderDetail.totalAmount, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+													</td>
+													<td>
+														<div
+															th:if="${order.orderStatus == 'RECEIVED' && !orderDetail.reviewed}">
+															<button class="btn btn-outline-success"
+																data-bs-toggle="modal"
+																th:attr="data-bs-target='#exampleModal-' + ${orderDetail.id}">Đánh
+																giá</button>
+
+														</div>
+														<form th:action="@{/review/create}" method="post">
+															<div class="modal fade"
+																th:id="'exampleModal-' + ${orderDetail.id}"
+																tabindex="-1" aria-labelledby="exampleModalLabel"
+																aria-hidden="true">
+																<div class="modal-dialog">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5 style="font-size: 20px; font-weight: 600;"
+																				class="modal-title"
+																				id="exampleModalLabel">
+																				Đánh giá món: <span
+																					style="color: darkgreen;"
+																					th:text="${orderDetail.product.name}"></span>
+																			</h5>
+
+																			<button type="button" class="btn-close"
+																				data-bs-dismiss="modal"
+																				aria-label="Close"></button>
+																		</div>
+																		<div class="modal-body">
+
+
+																			<input type="hidden" th:name="orderDetailId"
+																				th:value="${orderDetail.id}" />
+																			<div class="form-group">
+																				<label for="rating">Rating:</label>
+																				<select class="form-select" id="rating"
+																					name="rating" required>
+																					<option value="5">Rất tốt</option>
+																					<option value="4">Tốt</option>
+																					<option value="3">Bình thường
+																					</option>
+																					<option value="2">Tệ</option>
+																					<option value="1">Rất tệ</option>
+																					
+																					
+																					
+																					
+																				</select>
+																			</div>
+																			<div class="form-group">
+																				<label for="comment">Comment:</label>
+																				<textarea class="form-control"
+																					id="comment" name="comment" rows="3"
+																					required></textarea>
+																			</div>
+
+																		</div>
+																		<div class="modal-footer">
+
+																			<button type="submit"
+																				class="btn btn-primary">Đánh
+																				giá</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</form>
+													</td>
+												</tr>
+												<tr>
+													<th style="font-size: small;" scope="row" colspan="4"
+														class="text-center">Tổng tiền</th>
+													<td colspan="2">
+														<span
+															th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'POINT', 0, 'POINT')} + 'VND'"
+															style="font-weight: 600; font-size: medium;"></span>
+													</td>
+												</tr>
+												<tr>
+													<th style="font-size: small;" scope="row" colspan="4"
+														class="text-center">Vận chuyển</th>
+													<td colspan="2">
+														<span
+															th:text="${#numbers.formatDecimal(order.shipment.price, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+													</td>
+												</tr>
+												<tr>
+													<th style="font-size: small;" scope="row" colspan="4"
+														class="text-center">Thanh toán</th>
+													<td colspan="2">
+														<span
+															th:text="${#numbers.formatDecimal(order.totalPaymentAmount, 0, 'POINT', 0, 'POINT')} + 'VND'"
+															style="font-weight: 600; font-size: larger;"></span>
+													</td>
+												</tr>
+											</tbody>
+
+
+										</table>
+										<div th:if="${order.orderStatus == 'PAYING'}" class="d-flex justify-end">
+											<form th:action="@{/order/received}" method="post">
+												<input hidden th:value="${order.id}" name="orderId">
+												<button class="btn btn-success mr-1">nhận đơn</button>
+											</form>
+											<form th:action="@{/order/cancelled}" method="post">
+												<input hidden th:value="${order.id}" name="orderId">
+												<button class="btn btn-outline-danger">Từ chối nhận đơn</button>
+											</form>
+
+
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	</div>
+
+
+
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+
+</body>
+
+</html>

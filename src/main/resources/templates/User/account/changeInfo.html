@@ -1,0 +1,120 @@
+<html lang="en">
+<html>
+
+<head>
+	<title>Order</title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+</head>
+
+<body class="sub_page">
+	<div class="back-ground_navbar">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+	</div>
+
+	<div class="container max-w-7xl mb-3" style="margin-top: 180px;">
+		<div class="row">
+			<div class="col-3">
+				<div class="card  p-2">
+					<div class="mb-2" >
+						<h4 style="font-weight: 600; font-size: 20px;">Tài khoản của tôi</h4>
+					</div>
+
+					<div>
+						<div class="list-group ">
+							<a href="/information"
+								class="list-group-item list-group-item-action list-group-item-secondary "
+								style="font-weight: 600;">Thông tin cá nhân</a>
+
+							<a href="/order" class="list-group-item list-group-item-action ">Thông tin đơn hàng</a>
+							<a href="#" class="list-group-item list-group-item-action ">Đổi mật khẩu</a>
+							<a  href="/logout" class="list-group-item list-group-item-action bg-danger"
+								style="color: white;">Đăng xuất</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-9 " >
+				<div>
+					<div class="my-3 ">
+						<h3 style="font-weight: 800; font-size: 30px;">QUẢN LÝ TÀI KHOẢN</h3>
+					</div>
+					<div class="col-12">
+						<div class="alert alert-danger alert-dismissible fade show" th:i ismiss="alert"
+								aria-label="Close">
+								<i class="nc-icon nc-simple-remove"></i>
+							</button>
+							<span><b th:text="${danger}"> </b></span>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="card p-3" style="border: 1px solid #18481ae5; ">
+							<form class="row g-3" method="post" th:object="${user}" action="/changeInfo/save"
+								enctype="multipart/form-data" id=" form">
+								<div class="col-4">
+									<div class="col-md-12">
+										<label for="inputEmail4" class="form-label">Ảnh</label>
+										<input type="file" class="form-control" name="file" id="image">
+									</div>
+									<div class="col-md-12 d-flex justify-content-center p-2">
+										<img id="previewImage"
+											th:src="${(user.image != null ? session.user.image : 'https://cdn.sforum.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg')}"
+											class="img-thumbnail"
+											style="border-radius: 50%; width: 180px; height: 180px;" alt="...">
+
+									</div>
+								</div>
+
+								<div class="col-8">
+									<div class="col-md-12 mt-2">
+										<label for="inputAddress" class="form-label">Email</label>
+										<input th:field="*{email}" type="text" class="form-control" disabled>
+									</div>
+									<div class="col-12 mt-2">
+										<label for="inputAddress2" class="form-label">Tên người dùng</label>
+										<input th:field="*{username}" type="text" class="form-control" required>
+									</div>
+									<div class="col-md-12 mt-2">
+										<label for="inputCity" class="form-label">Số điện thoại</label>
+										<input th:field="*{phoneNumber}" type="number" class="form-control" required>
+									</div>
+								</div>
+								<input th:field="*{id}" type="text" class="form-control" hidden>
+								<input th:field="*{password}" type="text" class="form-control" hidden
+									required>
+								<input th:field="*{role}" type="text" class="form-control" hidden>
+
+								<div class="col-12 justify-content-end d-flex">
+									<button type="submit" class="btn btn-primary">Lưu thông tin</button>
+								</div>
+							</form>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+
+		var input = document.getElementById('image');
+		var img = document.getElementById('previewImage');
+
+		input.onchange = (event) => {
+			if (input.files.length > 0) {
+				console.log(input.files[0])
+				previewImage.src = URL.createObjectURL(input.files[0])
+			} else {
+				previewImage.src = "";
+			}
+		}
+	</script>
+
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+
+</body>
+
+</html>

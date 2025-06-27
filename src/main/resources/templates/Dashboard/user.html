@@ -1,0 +1,161 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>
+		User
+	</title>
+	<th:block th:insert="~{Dashboard/fragment/layout :: head}"></th:block>
+</head>
+
+<body>
+	<div class="wrapper ">
+		<div class="sidebar" data-color="white" data-active-color="danger">
+
+			<th:block th:insert="~{Dashboard/fragment/layout :: bar}"></th:block>
+			<div class="main-panel">
+				<!-- Navbar -->
+				<th:block th:insert="~{Dashboard/fragment/layout :: navtop}"></th:block>
+				<!-- End Navbar -->
+
+				<div class="content">
+					<div class="row">
+
+						<div class="col-md-12">
+							<div class="card">
+								<div class="Card-header">
+									<h4 class="card-title">Quản lý người dùng</h4>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="/dashboard/user/save-or-update" method="post"
+										id="form" enctype="multipart/form-data" th:object="${user}">
+
+										<input th:field="*{id}" hidden>
+										<div class="col-md-12 form-group">
+											<label for="username" class="form-label">Tên người dùng</label>
+											<input type="text" th:field="*{username}" name="username"
+												class="form-control" id="username" required>
+										</div>
+										<div class="col-12 form-group">
+											<label for="email" class="form-label">Email</label>
+											<input type="email" th:field="*{email}" name="email" class="form-control"
+												id="email" required>
+										</div>
+
+										<div class="col-md-4 ">
+											<label for="formFile" class="form-label">ảnh người dùng</label>
+											<input class="form-control" type="file" name="file" id="formFile">
+										</div>
+
+										<div class="col-md-4 form-group">
+											<label for="inputState" class="form-label">Trạng thái tài khoản</label>
+											<select class="form-control form-control-sm" name="enabled">
+												<option th:value="true" th:selected="${user.enabled}">Khả dụng</option>
+												<option th:value="false" th:selected="${!user.enabled}">Chưa kích hoạt</option>
+											</select>
+										</div>
+
+										<div class="col-md-4 form-group">
+											<label for="inputState" class="form-label">Chức vụ</label>
+											<select class="form-control" name="role" th:field="*{role}">
+												<option value="USER">Người dùng</option>
+												<option value="ADMIN">Quản trị viên</option>
+												<option value="EMPLOYEE">Nhân viên</option>
+											</select>
+										</div>
+
+										<div class="col-md-6 form-group">
+											<label for="password" class="form-label">Password</label>
+											<input type="text" th:field="*{password}" name="password"
+												class="form-control" id="password" required>
+										</div>
+
+										<div class="col-md-6 form-group">
+											<label for="phoneNumber" class="form-label">Số điện thoại</label>
+											<input type="number" th:field="*{phoneNumber}" name="phoneNumber"
+												class="form-control" id="phonenumber">
+										</div>
+
+										<div class="col-12">
+											<button type="submit" class="btn btn-primary"
+												style="width: 100px;">Lưu</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="alert alert-info alert-dismissible fade show" th:if="${success != null}">
+								<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<i class="nc-icon nc-simple-remove"></i>
+								</button>
+								<span><b th:text="${success}"> </b> </span>
+							</div>
+							<div class="alert alert-danger alert-dismissible fade show" th:if="${danger != null}">
+								<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<i class="nc-icon nc-simple-remove"></i>
+								</button>
+								<span><b th:text="${danger}"> </b></span>
+							</div>
+						</div>
+
+
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title"> Danh sách người dùng</h4>
+								</div>
+								<div class="input-group no-border col-12">
+									<input type="text" value="" class="form-control"
+										placeholder="Tìm kiếm người dùng...">
+									<div class="input-group-append">
+										<div class="input-group-text">
+											<i class="nc-icon nc-zoom-split"></i>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table">
+											<thead class=" text-primary">
+												<th>Ảnh</th>
+												<th>Id</th>
+												<th>Tên người dùng</th>
+												<th>Email</th>
+												<th>Chức vụ</th>
+												<th></th>
+
+											</thead>
+											<tbody>
+												<tr th:each="user : ${users}" th:class="${!user.enabled} ? 'table-secondary' : ''">
+													<td> <img th:src="${user.image}"
+															style="width: 50px; height: 50px; border-radius: 50%"></td>
+													<td th:text="${user.id}"></td>
+													<td th:text="${user.username}"></td>
+													<td th:text="${user.email}"></td>
+													<td th:text="${user.role}"></td>
+													<td class="text-right">
+														<a class="btn btn-success"
+															th:href="@{/dashboard/user/{id} (id = ${user.id})}"> <i
+																class="fa-solid fa-pen-to-square"></i></a>
+														<a class="btn btn-danger"
+															th:href="@{/dashboard/user/delete/{id} (id = ${user.id})}"><i
+																class="fa-solid fa-trash"></i></a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<th:block th:insert="~{Dashboard/fragment/layout :: footer}"></th:block>
+
+</body>

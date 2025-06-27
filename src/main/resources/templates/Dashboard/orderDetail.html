@@ -1,0 +1,189 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>
+		Order
+	</title>
+	<th:block th:insert="~{Dashboard/fragment/layout :: head}"></th:block>
+</head>
+
+<body>
+	<div class="wrapper ">
+		<div class="sidebar" data-color="white" data-active-color="danger">
+
+			<th:block th:insert="~{Dashboard/fragment/layout :: bar}"></th:block>
+			<div class="main-panel">
+				<!-- Navbar -->
+				<th:block th:insert="~{Dashboard/fragment/layout :: navtop}"></th:block>
+				<!-- End Navbar -->
+
+				<div class="content">
+					<div class="row">
+
+						<div class="col-4">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Trạng thái đơn hàng</h4>
+								</div>
+								<div class="card-body">
+									<form th:object="${order}" id="form" action="/dashboard/order/update" method="post">
+										<input name="orderId" th:value="${order.id}" hidden>
+										<div>
+											<label for="inputState" class="form-label">Trạng thái đơn hàng</label>
+											<select class="form-control" th:field="*{orderStatus}" name="orderStatus">
+												<option th:value="'APPLYING'" th:text="'Đang lên đơn'"
+													th:selected="${order.orderStatus == 'APPLYING'}" th:hidden="${order.orderStatus == 'SHIPPING' 
+                        or order.orderStatus == 'PAYING'
+                        or order.orderStatus == 'RECEIVED' 
+                        or order.orderStatus == 'CANCELLED'}">
+												</option>
+												<option th:value="'SHIPPING'" th:text="'Đang giao hàng'"
+													th:selected="${order.orderStatus == 'SHIPPING'}" th:hidden="${order.orderStatus == 'PAYING'
+                        or order.orderStatus == 'RECEIVED' 
+                        or order.orderStatus == 'CANCELLED'}">
+												</option>
+												<option th:value="'PAYING'" th:text="'Đã đến, đang đợi nhận hàng'"
+													th:selected="${order.orderStatus == 'PAYING'}" th:hidden="${order.orderStatus == 'RECEIVED' 
+                        or order.orderStatus == 'CANCELLED'}">
+												</option>
+												<option th:value="'RECEIVED'" th:text="'Đã nhận hàng'"
+													th:selected="${order.orderStatus == 'RECEIVED'}"
+													th:disabled="${order.orderStatus == 'CANCELLED'}"
+													th:hidden="${order.orderStatus == 'CANCELLED'}">
+												</option>
+												<option th:value="'CANCELLED'" th:text="'Đã huỷ đơn hàng'"
+													th:selected="${order.orderStatus == 'CANCELLED'}">
+												</option>
+											</select>
+										</div>
+										<div class="mt-2">
+											<label for="inputState" class="form-label">Trạng thái thanh toán</label>
+											<select class="form-control" th:filed="*{paymentStatus}"
+												name="paymentStatus">
+												<option th:value="'UNPAID'" th:text="'Chưa thanh toán'"
+													th:selected="${order.paymentStatus == 'UNPAID'}"></option>
+												<option th:value="'PAID'" th:text="'Đã thanh toán'"
+													th:selected="${order.paymentStatus == 'PAID'}"></option>
+											</select>
+										</div>
+										<div>
+											<button type="submit" class="btn btn-primary mb-0">Cập nhật thông
+												tin</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-4">
+							<div class="card">
+
+								<div class="card-header">
+									<h4 class="card-title">Thông tin người nhận</h4>
+								</div>
+								<div class="card-body">
+									<form id="form">
+										<div>
+											<label for="inputState" class="form-label">Tên người nhận</label>
+											<input th:value="${order.user.username}" class="form-control" type="text"
+												placeholder="Default input" disabled style="background-color: #fff;">
+										</div>
+										<div class="mt-2">
+											<label for="inputState" class="form-label">Địa chỉ nhận hàng</label>
+											<input
+												th:value="${order.address.apartmentNumber + ', ' + order.address.ward + ', ' + order.address.district + ', ' + order.address.city}"
+												class="form-control" type="text" placeholder="Default input" disabled
+												style="background-color: #fff;">
+										</div>
+										<div class="mt-2">
+											<label for="inputState" class="form-label">Số điện thoại nhận hàng</label>
+											<input th:value="${order.address.phoneNumber}" class="form-control"
+												type="text" placeholder="Default input" disabled
+												style="background-color: #fff;">
+										</div>
+
+										<div class="mt-2">
+											<label for="inputState" class="form-label">Phương thức thanh toán</label>
+											<input th:value="${order.paymentMethod}" class="form-control"
+												type="text" placeholder="Default input" disabled
+												style="background-color: #fff;">
+										</div>
+										<div class="mt-2">
+											<label for="inputState" class="form-label">Ngày đặt hàng</label>
+											<input th:value="${#dates.format(order.orderDate, 'HH:mm dd/MM/yyyy')}"
+												class="form-control" type="text" placeholder="Default input" disabled
+												style="background-color: #fff;">
+										</div>
+									</form>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="col-4">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Chi tiết đơn hàng</h4>
+								</div>
+								<div class="card-body">
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<th scope="col">Id</th>
+												<th scope="col">Tên sản phẩm</th>
+												<th scope="col">Giá</th>
+												<th scope="col">Số lượng</th>
+												<th scope="col">Tổng tiền</th>
+											</tr>
+										</thead>
+										<tbody th:each="orderItem : ${order}">
+											<tr th:each="item : ${order.orderDetails}">
+												<td th:text="${item.id}"></td>
+												<td th:text="${item.product.name}"></td>
+												<td>
+													<span th:if="${item.product.promotionalPrice ne null}"
+														class="price-sale">
+														<span
+															th:text="${#numbers.formatDecimal(item.product.promotionalPrice, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+													</span>
+													<span th:unless="${item.product.promotionalPrice ne null}"
+														th:text="${#numbers.formatDecimal(item.product.price, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+												</td>
+												<td th:text="${item.quantity}"></td>
+												<td
+													th:text="${#numbers.formatDecimal(item.totalAmount, 0, 'POINT', 0, 'POINT')} + 'VND'">
+												</td>
+											</tr>
+
+											<tr>
+												<td colspan="4" class="text-center">Tổng đơn hàng</td>
+												<td
+													th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'POINT', 0, 'POINT')} + 'VND'">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" class="text-center">Vận chuyển</td>
+												<td
+													th:text="${#numbers.formatDecimal(order.shipment.price, 0, 'POINT', 0, 'POINT')} + 'VND'">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" class="text-center">Tổng thanh toán</td>
+												<th
+													th:text="${#numbers.formatDecimal(order.totalPaymentAmount, 0, 'POINT', 0, 'POINT')} + 'VND'">
+												</th>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block th:insert="~{Dashboard/fragment/layout :: footer}"></th:block>
+
+</body>

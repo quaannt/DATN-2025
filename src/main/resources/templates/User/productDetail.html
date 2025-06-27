@@ -1,0 +1,177 @@
+<html lang="en">
+<html>
+
+<head>
+	<title>Login</title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+</head>
+
+<body class="sub_page" style="background-color: rgb(226, 226, 226);">
+	<div class="back-ground_navbar">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+	</div>
+
+	<div class="container max-w-7xl mb-3 " style=" margin-top: 180px;">
+		<div class="bg-white p rounded p-3" th:object="${product}">
+		<div class="row">
+			<div class="col-6">
+				<div class="row">
+					<div class="container-fluid" style="width: 80%; padding-bottom: 50px;">
+						<div class="row">
+							<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+								<div class="carousel-inner mt-2" s
+									tyle="background-color: #fff; border-radius: 15px; padding: 20px;">
+									<div style="width: 100%; height: 450px; border-radius: 20px; overflow: hidden;">
+										<img style="width: 100%; height: 100%; object-fit: cover;"
+											class="d-block w-100 rounded-2" th:src="${product.image}">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-6">
+				<h3 th:text="${product.name}" style="font-size: 32px; font-weight: 600;">
+
+				</h3>
+				
+				<small class="text-primary fw-light"><span th:text="${numberOfReviews}"></span> lượt đánh giá</small>
+				<h3 class="pt-2">
+					<div class="pricing">
+						<p class="price">
+							<span th:if="${product.promotionalPrice ne null}" class="price-sale"
+								style="color: red; font-size: 28px; font-weight: 600;">
+								<span
+									th:text="${#numbers.formatDecimal(product.promotionalPrice, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+							</span>
+							<span th:unless="${product.promotionalPrice ne null}"
+								th:text="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+							<span class="price-dc" style="font-size: 20px; text-decoration: line-through;"
+								th:if="${product.promotionalPrice ne null}">
+								<span
+									th:text="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+							</span>
+						</p>
+					</div>
+				</h3>
+				<div class="pt-2">
+					<div class="card border-0 bg-white">
+						<div class="card-header" style="background-color: white;">
+
+						</div>
+						<div class="card-body" style="min-height: 235px;">
+							<pre th:text="${product.description}" style="white-space: pre-wrap;">
+
+							</pre>
+						</div>
+
+
+
+						<div class="card-footer bg-white pt-5">
+							<th:block th:if="${product.status}">
+								<a th:href="@{/cart/add-to-cart?productId={productId}(productId=${product.id})}"
+									class="btn btn-success col-sm-12" id="add-to-cart"
+									style="color: white; font-weight: 600; border-radius: 20px;">
+									<div class="flex-item">
+										<i class="fa-solid fa-cart-shopping"></i>
+										<span>Thêm vào giỏ hàng</span>
+									</div>
+								</a>
+							</th:block>
+
+							<th:block th:unless="${product.status}">
+								<div class="border bg-danger p-2 "
+									style="border-radius: 20px; color: white;font-weight: 600; text-align: center;">
+									<i class="fa-solid fa-exclamation"></i>
+									<span>Hết hàng</span>
+								</div>
+							</th:block>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="container max-w-7xl mb-3">
+		<div class="row">
+		<div class="col-5">
+			<div class="p-2 w-100 bg-white rounded" >
+
+				<h5 style="font-weight: 700;">Đánh giá </h5>
+				
+				<small class="text-primary fw-light" th:text="${numberOfReviews + ' ' + 'lượt đánh giá'}"></small>
+
+				<div class="mt-4 pl-2">
+					<div th:each="review : ${reviews}">
+						<h6 style="font-weight: 600;" th:text="${review.orderDetail.order.user.email}">Khách hàng</h6>
+						<small class="text-warning" th:switch="${review.rating}">
+							<span th:case="1">
+								<i class="fa-solid fa-star star-color"></i>
+							</span>
+							<span th:case="2">
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+							</span>
+							<span th:case="3">
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+							</span>
+							<span th:case="4">
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+							</span>
+							<span th:case="5">
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+								<i class="fa-solid fa-star star-color"></i>
+							</span>
+						</small>
+						<h6><small th:text="${review.comment}">Đánh giá của khách hàng</small></h6>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+		<nav class="col-7">
+			<div class="bg-white p-4 rounded " >
+				<h5 style="font-weight: 700;">Có thể bạn sẽ thích</h5>
+				<table class="table">
+
+					<tbody class="table-group-divider">
+						<tr th:each="item : ${similarPriceProducts}">
+							<th >
+								<a th:href="@{/productDetail/{id} (id =${product.id})}" >
+								<img th:src="${item.image}"
+									style="width: 50px; height: 50px; border-radius: 10px; object-fit: cover;">
+								</a>
+							</th>
+							<td style="font-weight: 600;" th:text="${item.name}">product name </td>
+							<td  th:text="${#numbers.formatDecimal(item.promotionalPrice == null ? item.price : item.promotionalPrice, 1, 'COMMA', 0, 'POINT')} + 'VND'">price</td>
+							<td><a class="btn btn-success" style="color: white; "><i
+										class="fa-solid fa-cart-plus"></i></a></td>
+						</tr>
+						
+
+					</tbody>
+				</table>
+			</div>
+		</nav>
+		</div>
+	</div>
+
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+	<th:block th:insert="~{User/fragment/layout :: cart-box}"></th:block>
+</body>
+
+</html>

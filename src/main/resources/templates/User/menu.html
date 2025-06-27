@@ -1,0 +1,112 @@
+<html lang="en">
+<html>
+
+<head>
+	<title> Menu </title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+</head>
+
+<body class="bg-gray-100">
+
+	<div class="back-ground_navbar">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+
+	</div>
+	<!-- food section -->
+
+	<section class="my-5 container">
+		<div class="text-center mb-3" style="margin-top: 180px;">
+			<h2 style="font-weight: 700; font-size: 40px;" class="text-brown">Sản phẩm</h2>
+
+		</div>
+
+		<div class="col-12 h-12 my-4">
+			<nav class="navbar navbar-expand-lg">
+				<div class="container-fluid ">
+
+
+					<div class="collapse navbar-collapse d-flex justify-content-center "  id="navbarSupportedContent">
+
+						<a class=" btn btn-brown" style="border-radius: 20px;" href="/menu">Tất cả</a>
+						<a th:each="category : ${categories}" th:text="${category.name}" th:href="@{/filter(categoryId=${category.id})}" type="button" style="border-radius: 20px;" class=" btn btn-outline-brown ml-2" >category</a>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<div class="container max-w-7xl">
+			<div class="row">
+				<div class=" col-sm-6 col-lg-4 " th:each="product : ${products}">
+					<div class="bg-dark text-light prod-box rounded overflow-hidden position-relative" >
+						<span class="position-absolute bg-danger px-1 m-1 rounded" style="z-index: 1;" th:if="${product.promotionalPrice != null}" th:text="${T(java.lang.Math).round((1 - product.promotionalPrice / product.price) * 100)} + '%'"></span>
+						<div>
+							<div class="img-box prod-header"
+								style="height: 250px; background-color: #ffffff; border-radius: 0px 0px 0px 50px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+								<a  th:href="@{/productDetail/{id} (id =${product.id})}" class="w-100 h-auto">
+									<img th:src="${product.image}"
+									style="height: 100%; width: 100%; object-fit: cover;" alt="">
+								</a>
+								
+							</div>
+
+							<div class="detail-box p-2 d-flex">
+								<div class="col-8 p-1">
+									<a class="text-light" style="font-weight: 600;" th:href="@{/productDetail/{id} (id=${product.id})}" th:text="${product.name}">
+									</a>
+									<div class="options">
+										<h6 th:if="${product.promotionalPrice ne null}">
+											<!-- Hiển thị giá giảm -->
+											<text class="text-danger fs-5"
+												th:text="${#numbers.formatDecimal(product.promotionalPrice, 0, 'POINT', 0, 'POINT') + 'VND'}">
+											</text>
+											<!-- Hiển thị giá gốc với giảm giá -->
+
+											<del
+												th:text="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT') + 'VND'}"></del>
+
+										</h6>
+										<!-- Nếu không có giá giảm, chỉ hiển thị giá gốc -->
+										<h6 th:unless="${product.promotionalPrice ne null}"
+											th:text="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT') + 'VND'}">
+										</h6>
+									</div>
+								</div>
+								<div class="col-5 p-3 justify-center d-flex">
+
+									<th:block th:if="${product.status}">
+										<a th:href="@{/cart/add-to-cart(productId=${product.id})}"
+											class="btn btn-brown d-flex justify-center align-items-center" 
+											style="width: 40px; height: 40px; border-radius: 50%;">
+											<i class="fa-solid fa-cart-shopping"></i>
+										</a>
+
+									</th:block>
+									<th:block th:unless="${product.status}">
+										<div class="border bg-danger p-2 px-3" style="border-radius: 20px;">
+
+											<span>Hết hàng</span>
+											<i class="fa-solid fa-exclamation"></i>
+										</div>
+									</th:block>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+	</section>
+
+
+
+
+	<!-- end food section -->
+
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+	<!-- footer section -->
+	<th:block th:insert="~{User/fragment/layout :: cart-box}"></th:block>
+
+
+</body>
+
+</html>

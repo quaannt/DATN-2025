@@ -1,0 +1,98 @@
+.login-form {
+    width: 100%;
+    max-width: 720px;
+    margin: 12px auto;
+    background-color: white;
+    border-radius: 24px;
+    padding: 24px 0px;
+}
+
+.login-form > .title {
+    width: 100%;
+    font-size: 24px;
+    padding-inline: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.login-form > .title::after {
+    position: absolute;
+    content: "";
+    width: 200px;
+    height: 2px;
+    background-color: #644024;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.login-form > .container {
+    width: 100%;
+    padding: 12px 80px;
+}
+
+.text-form {
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.text-form input {
+    display: block;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: solid 1px #ccc;
+    padding-inline: 12px;
+    padding-top: 0px;
+    padding-bottom: 8px;
+    padding-top: 20px;
+    transition: all 0.125s ease-in-out;
+}
+
+.text-form label {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 100%;
+    padding-inline: 12px;
+    pointer-events: none;
+    font-size: 16px;
+    vertical-align: middle;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    transition: all 0.125s ease-in-out;
+    background-color: #fff;
+}
+.text-form > input:focus, input:not(:placeholder-shown) {
+    background-color: rgba(204, 204, 204, 0.25);
+    border-color: #644024;
+}
+.text-form > input:focus ~ label, .text-form > input:not(:placeholder-shown) ~ label {
+    top: 0;
+    padding: 0;
+    font-size: 12px;
+    align-items: end;
+    color: #644024;
+}
+
+.button-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.account-text{
+	font-size: small;
+	color:rgb(154, 154, 154);
+}
+
+.account-text:hover{
+	color: #644024;
+}

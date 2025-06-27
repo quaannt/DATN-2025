@@ -1,0 +1,120 @@
+<html lang="en">
+<html>
+
+<head>
+	<title>Informantion</title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+</head>
+
+<body class="sub_page">
+	<div class="back-ground_navbar">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+	</div>
+
+	<div class="container max-w-7xl " style="margin-top: 180px;">
+		<div class="row">
+			<div class="col-3">
+				<div class="card  p-2">
+					<div class="mb-2" >
+						<h4 style="font-weight: 600; font-size: 20px;">Tài khoản của tôi</h4>
+					</div>
+
+					<div>
+						<div class="list-group ">
+							<a href="/information"
+								class="list-group-item list-group-item-action list-group-item-secondary "
+								style="font-weight: 600;">Thông tin cá nhân</a>
+
+							<a href="/order" class="list-group-item list-group-item-action ">Thông tin đơn hàng</a>
+							<a href="#" class="list-group-item list-group-item-action ">Đổi mật khẩu</a>
+							<a href="/logout" class="list-group-item list-group-item-action bg-danger"
+								style="color: white;">Đăng xuất</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-9">
+				<div>
+					<div class="my-3">
+						<h3 style=" font-weight: 800; font-size: 30px;">QUẢN LÝ TÀI KHOẢN</h3>
+						<a>Xin chào <span th:text="${session.user.username}"></span>. Với trang này, bạn sẽ quản lý được tất cả thông tin tài khoản của
+							mình.</a>
+					</div>
+					<div class="row bg-light border">
+						<div class="bg-brown p-2 col-12" >
+							<h4 style="font-weight: 700; color: white;text-align: center ;">THÔNG TIN TÀI KHOẢN</h4>
+						</div>
+						<div class="p-3 col-3 justify-content-center d-flex">
+							<img th:src="${(user.image != null ? session.user.image : 'https://cdn.sforum.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg')}"
+								class="img-thumbnail" style="border-radius: 50%; width: 120px; height: 120px; object-fit: cover;"
+								alt="...">
+								
+						</div>
+
+						<div class="col-9 p-3">
+							<div class="row ">
+								<div class="col-5">
+									<span>Email:</span>
+									<h6 style="font-weight: 600; margin-left: 10px;" th:text="${session.user.email}"></h6>
+								</div>
+								<div class="col-4">
+									<span>Tên người dùng:</span>
+									<h6 style="font-weight: 600; margin-left: 10px;" th:text="${session.user.username}"></h6>
+								</div>
+								<div class="col-3">
+									<span>SDT:</span>
+									<h6 style="font-weight: 600; margin-left: 10px;" th:text="${session.user.phoneNumber}"></h6>
+								</div>
+								<div class="col-12 mt-2 text-right">
+									<a href="/changeInfo" class=" btn btn-brown" style=" width: 200px;">Chỉnh sửa tài
+										khoản</a>
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+
+				<div class="my-5" >
+					<div class="row bg-light border" >
+						<div class="bg-brown p-2 col-12" >
+							<h4 style="font-weight: 700; color: white;text-align: center ;">ĐỊA CHỈ GIAO HÀNG</h4>
+						</div>
+						
+						
+						<div class="p-3 col-12">
+							<div class="row">
+								<div class="col-12">
+									<table class="table">
+										<tbody>
+											<tr th:each="address : ${addresses}">
+												<td th:text="${address.apartmentNumber} + ', ' + ${address.ward} + ', ' + ${address.district} + ', ' + ${address.city}"></td>
+												<td class="text-left"> <a th:text="${address.phoneNumber}"></a></td>
+												<td class="text-right">
+													<a class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
+													<a th:href="@{/address/delete/{id} (id=${address.id})}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+												</td>
+											</tr>
+											
+										</tbody>
+									</table>
+									<div class="col-12 text-right">
+										<a href="/address" class="btn btn-primary"  style=" width: 200px; color: white;">Thêm địa chỉ mới</a>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+</body>
+
+</html>

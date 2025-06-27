@@ -1,0 +1,321 @@
+<html lang="en">
+<html>
+
+<head>
+	<title>Thanh toán</title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+</head>
+
+<body class="sub_page">
+	<div class="back-ground_navbar">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+	</div>
+	<div class="container max-w-7xl"  style="margin-top: 180px;">
+		<div class="row mb-4 ">
+
+			<div class="col-lg-8  cart-wrap ftco-animate ">
+
+				<div class="col-12 col-lg-12">
+					<div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${danger != null}">
+						<strong th:text="${danger}"></strong>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				</div>
+
+				<div class="col-lg-12  cart-wrap ftco-animate card bg-white p-3 bg-white  p-3 rounded">
+					<div>
+						<script>
+							function validatePayment() {
+								console.log("Form submitted!");
+								var selectedAddress = document.getElementById("address").value;
+								if (!selectedAddress) {
+									alert("Vui lòng chọn địa chỉ nhận hàng trước khi thanh toán!");
+									return false;
+								}
+								return true;
+							}
+
+
+						</script>
+
+						<form method="post" action="/process-payment" onsubmit="return validatePayment();"
+							id="discountForm">
+							<div class="cart-total mb-3">
+								<h3 style="font-weight: 700; font-size: 20px;">Thanh toán</h3>
+								<hr class="my-2">
+
+								<div class="input-group mb-3">
+									<input type="text" class="form-control" placeholder="Nhập mã giảm giá"
+										name="discountCode" aria-label="Recipient's username"
+										aria-describedby="button-addon2">
+								<button class="btn btn-outline-secondary" type="button" id="check-discount">Xác nhận</button>
+</div>
+
+								</div>
+
+								<div class="input-group">
+									<select class="form-select" name="shipmentId" id="shipment"
+										aria-label="Example select with button addon">
+										<option th:each="shipment : ${shipments}" th:value="${shipment.id}"
+											th:text="${shipment.name + ': ' +  #numbers.formatDecimal(shipment.price, 0, 'POINT', 0, 'POINT')} + 'VND'"
+											th:selected="${shipmentSelected != null && shipment.id == shipmentSelected.id}">
+										</option>
+									</select>
+								</div>
+
+							
+							
+
+								<div class="d-flex mt-2">
+									<div class="col-6">
+										<span>Tổng đơn hàng: </span>
+									</div>
+									<div class="col-6 text-right">
+										<span id="cartTotal"
+											th:text="${#numbers.formatDecimal(cartTotal, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+									</div>
+								</div>
+
+								<hr class="my-2">
+								<div class="d-flex mt-2">
+
+									<div class="col-6">
+										<span>Tổng thanh toán: </span>
+									</div>
+									<div class="col-6 text-right">
+										<span style="font-weight: 600;" class="text-danger fs-5" id="totalPayment"
+											></span>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="mt-2">
+								<h5 style="font-weight: 600;">Địa chỉ nhận hàng:</h5>
+								<div th:if="${not #lists.isEmpty(addresses)}" class="row" style="align-items: center;">
+									<div class="col-12">
+										<select class="form-select" id="address" name="addressId"
+											aria-label="Example select with button addon">
+											<option th:each="address : ${addresses}" th:value="${address.id}"
+												th:text="${address.apartmentNumber} + ', ' + ${address.ward} + ', ' + ${address.district} + ', ' + ${address.city}">
+											</option>
+
+										</select>
+									</div>
+
+									<div class="col-12">
+										<a href="/address" type="button" class="btn btn-outline-primary mt-2"
+											data-toggle="modal" data-target="#addAddressModal"
+											style="border-radius: 10px;">
+											Thêm địa chỉ mới
+										</a>
+									</div>
+								</div>
+								<div>
+									<div th:if="${#lists.isEmpty(addresses)}">
+										<div class="alert alert-danger" role="alert">
+											Vui lòng thêm địa chỉ nhận hàng trước khi thanh toán!
+										</div>
+										<a href="/address" type="button" class="btn btn-primary" data-toggle="modal"
+											data-target="#addAddressModal" style="border-radius: 10px;">
+											Thêm địa chỉ
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="mt-2">
+								<h5 style="font-weight: 600;">Phương thức thanh toán:</h5>
+								
+								
+								<!-- From Uiverse.io by kyle1dev --> 
+<div class="custom-radio-group py-3">
+  <label class="custom-radio-container mb-2">
+    <input type="radio" name="paymentMethod" value="CASH_ONLINE" required="required"/>
+    <span class="custom-radio-checkmark"></span>
+    Thanh toán online
+  </label>
+  <label class="custom-radio-container">
+    <input type="radio" name="paymentMethod" value="CASH_ON_DELIVERY" required="required"/>
+    <span class="custom-radio-checkmark"></span>
+    Thanh toán khi nhận hàng
+  </label>
+</div>
+								
+
+							</div>
+
+							<hr class="my-2">
+							<div class="mb-3">
+								<label style="font-weight: 600;" for="exampleFormControlTextarea1"
+									class="form-label">Ghi chú cho quán</label>
+								<textarea name="note" class="form-control" id="exampleFormControlTextarea1"
+									rows="3"></textarea>
+							</div>
+
+							<p><button th:if="${not #lists.isEmpty(addresses)}" type="submit"
+									class="btn btn-success mt-4" id="discountForm"
+									style="width: 100%; border-radius: 20px; color: white; font-weight: 600;">Đặt hàng</button>
+							</p>
+
+							<p><button th:if="${#lists.isEmpty(addresses)}" disabled type="submit"
+									class="btn btn-success mt-4"
+									style="width: 100%; border-radius: 20px; color: white; font-weight: 600;"> Đặt hàng</button>
+							</p>
+						</form>
+					</div>
+				</div>
+					 
+<script type="text/javascript" th:inline="javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+
+    // Tổng tiền giỏ hàng
+    const cartTotal = /*[[${cartTotal}]]*/ 0;
+
+    // Danh sách phương thức vận chuyển và mã giảm giá
+    const shipments = /*[[${shipments}]]*/ [];
+    const discountCodes = /*[[${discountCodes}]]*/ [];
+
+    // Map lưu giá ship theo id
+    const shipmentMap = {};
+    shipments.forEach(s => {
+      shipmentMap[s.id] = s.price;
+    });
+
+    // Map lưu giá trị mã giảm giá
+    const discountMap = {};
+    const today = new Date();
+    discountCodes.forEach(dc => {
+      const effective = new Date(dc.effectiveDate);
+      const expiration = new Date(dc.expirationDate);
+      const isActive = today >= effective && today <= expiration && dc.quantity > 0;
+      if (isActive) {
+        discountMap[dc.code] = dc.discountValue;
+      }
+    });
+
+    // Lấy các phần tử trong DOM
+    const shipmentSelect = document.getElementById("shipment");
+    const discountInput = document.querySelector("input[name='discountCode']");
+    const totalPaymentSpan = document.getElementById("totalPayment");
+    const checkDiscountBtn = document.getElementById("check-discount");
+
+    // Trạng thái mã giảm giá
+    let appliedDiscountCode = null;
+    let discountApplied = false;
+
+    // Tính tổng tiền
+  function calculateTotal() {
+  const shipmentId = shipmentSelect.value;
+  const shipmentCost = parseFloat(shipmentMap[shipmentId]) || 0;
+
+  let discountPercent = 0;
+  if (appliedDiscountCode && discountMap[appliedDiscountCode]) {
+    discountPercent = parseFloat(discountMap[appliedDiscountCode]) || 0;
+  }
+
+  const discountAmount = cartTotal * (discountPercent / 100);
+  const discountedTotal = Math.max(cartTotal - discountAmount, 0);
+  const total = discountedTotal + shipmentCost;
+
+  if (!isNaN(total)) {
+    totalPaymentSpan.textContent = total.toLocaleString('vi-VN') + " VND";
+  } else {
+    totalPaymentSpan.textContent = "Không xác định";
+  }
+}
+
+    // Sự kiện bấm nút áp dụng / xóa mã
+    checkDiscountBtn.addEventListener("click", () => {
+      if (!discountApplied) {
+        const code = discountInput.value.trim();
+
+        if (discountMap.hasOwnProperty(code)) {
+          // Mã hợp lệ
+          appliedDiscountCode = code;
+          discountApplied = true;
+
+          discountInput.readOnly = true;
+          checkDiscountBtn.textContent = "Xóa mã giảm giá";
+          alert("Áp dụng mã thành công!");
+        } else {
+          // Mã không hợp lệ
+          appliedDiscountCode = null;
+          alert("Mã giảm giá không hợp lệ hoặc đã hết hạn.");
+          return;
+        }
+      } else {
+        // Gỡ mã giảm giá
+        appliedDiscountCode = null;
+        discountApplied = false;
+
+        discountInput.readOnly = false;
+        discountInput.value = "";
+        checkDiscountBtn.textContent = "Áp dụng mã giảm";
+        alert("Đã xóa mã giảm giá.");
+      }
+
+      calculateTotal();
+    });
+
+    // Tính lại khi chọn phương thức giao hàng
+    shipmentSelect.addEventListener("change", calculateTotal);
+
+    // Gọi lần đầu khi tải trang
+    calculateTotal();
+  });
+</script>
+
+
+
+
+			
+			
+			<div class="col-12 col-lg-4  ">
+				<div class="bg-white p-2  ftco-animate card rounded"
+					style="width: 100%;">
+					<div class=" d-flex justify-content-between">
+						<h3 class="" style="font-weight: 600;">Chi tiết đơn hàng</h3>
+						<div class="">
+							<a href="/cart" class="btn btn-primary"><i
+									class="fa-solid fa-pen"></i></a>
+						</div>
+					</div>
+					<hr class="my-2">
+					<table>
+						<div class="table-responsive overflow-auto ">
+							<tr th:each="cartItem : ${cartItems}">
+								<td class="image-prod pt-2">
+									<img th:src="${cartItem.product.image}"
+										style="width:55px; height: 40px; border-radius: 15px; object-fit:cover;"> </td>
+								<td class="product-name text-left">
+									<p th:text="${cartItem.product.name}"> </p>
+								</td>
+								<td class="quantity">
+									<p class="text-nowrap" th:text="'x' + ' ' + ${cartItem.quantity}" style="font-weight: 600;">
+									</p>
+								</td>
+							</tr>
+						</div>
+					</table>
+					<hr class="my-2">
+					<div class="d-flex">
+						<div class="col-4">
+							<h6 style="font-weight: 600;">Tổng cộng:</h6>
+						</div>
+
+						<div class="col-8 text-right">
+							<h4 class="text-end" style="font-weight: 700;"
+								th:text="${#numbers.formatDecimal(cartTotal, 0, 'POINT', 0, 'POINT')} + 'VND'"></h4>
+						</div>
+					</div>
+				</div>
+			</div>
+
+</div>
+		</div>
+	</div>
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+</body>
+
+</html>

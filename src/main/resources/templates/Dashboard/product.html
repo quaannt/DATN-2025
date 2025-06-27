@@ -1,0 +1,189 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>
+		Product
+	</title>
+	<th:block th:insert="~{Dashboard/fragment/layout :: head}"></th:block>
+</head>
+
+<body>
+	<div class="wrapper ">
+		<div class="sidebar" data-color="white" data-active-color="danger">
+
+			<th:block th:insert="~{Dashboard/fragment/layout :: bar}"></th:block>
+			<div class="main-panel">
+				<!-- Navbar -->
+				<th:block th:insert="~{Dashboard/fragment/layout :: navtop}"></th:block>
+				<!-- End Navbar -->
+
+				<div class="content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="Card-header">
+									<h4 class="card-title">Quản lý sản phẩm</h4>
+								</div>
+								<div class="card-body">
+									<form class="row g-3" action="/dashboard/product/save-or-update" method="post"
+										th:object="${product}" id="form" enctype="multipart/form-data">
+										<input th:field="*{id}" hidden>
+										<input th:field="*{createdAt}" name="createdAt" hidden>
+										<input th:field="*{updatedAt}" name="updatedAt" hidden>
+										<div class="col-md-12 form-group">
+											<label for="productName" class="form-label">Tên sản phẩm</label>
+											<input th:field="*{name}" type="text" class="form-control" id="productName"
+												required>
+										</div>
+										<div class="col-6 form-group">
+											<label for="price" class="form-label">Giá</label>
+											<input th:field="*{price}" type="number" name="price" class="form-control"
+												id="price" required>
+										</div>
+										<div class="col-6 form-group">
+											<label for="promotionalPrice" class="form-label">Giá giảm</label>
+											<input th:field="*{promotionalPrice}" type="number" name="promotionalPrice"
+												class="form-control" id="promotionalPrice">
+										</div>
+										<div class="col-md-8 ">
+											<label for="formFile" class="form-label">ảnh sản phẩm</label>
+											<input class="form-control" type="file" name="file" id="formFile"
+												th:required="${product.id == null}">
+
+										</div>
+
+										<div class="col-md-4 form-group">
+											<label for="inputState" class="form-label">Danh mục</label>
+											<select class="form-control" name="category">
+												<option th:each="category : ${categories}" th:value="${category.id}"
+													th:text="${category.name}"></option>
+											</select>
+										</div>
+
+										<div class="col-md-12 form-group">
+											<label for="exampleFormControlTextarea1" class="form-label">Mô tả</label>
+											<textarea class="form-control" name="description" th:field="*{description}"
+												id="exampleFormControlTextarea1" rows="3"></textarea>
+										</div>
+								</div>
+
+								<div class="col-12 form-group">
+									<select class="form-control form-control-sm" name="status">
+										<option th:value="true" th:selected="${product.status}">Còn hàng</option>
+										<option th:value="false" th:selected="${!product.status}">Hết hàng</option>
+									</select>
+								</div>
+
+
+
+								<div class="col-12">
+									<button type="submit" class="btn btn-primary" style="width: 100px;">Lưu</button>
+								</div>
+
+								</form>
+
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="alert alert-info alert-dismissible fade show" th:if="${success != null}">
+								<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<i class="nc-icon nc-simple-remove"></i>
+								</button>
+								<span><b th:text="${success}"> </b> </span>
+							</div>
+							<div class="alert alert-danger alert-dismissible fade show" th:if="${danger != null}">
+								<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<i class="nc-icon nc-simple-remove"></i>
+								</button>
+								<span><b th:text="${danger}"> </b></span>
+							</div>
+						</div>
+
+
+
+						<div class="col-md-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Danh sách món ăn</h4>
+								</div>
+								<div class="input-group no-border col-12">
+									<input type="text" value="" class="form-control" placeholder="Tìm kiếm món ăn...">
+									<div class="input-group-append">
+										<div class="input-group-text">
+											<i class="nc-icon nc-zoom-split"></i>
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table">
+											<thead class=" text-primary">
+												<th>Id</th>
+												<th>Ảnh</th>
+												<th>Tên </th>
+												<th>Giá</th>
+												<th>Giá giảm</th>
+												<th>Danh mục</th>
+												<th>Ngày tạo</th>
+												<th>Ngày cập nhật</th>
+												<th>Status</th>
+
+											</thead>
+											<tbody>
+												<tr th:each="product : ${products}"
+													th:class="${!product.status} ? 'table-secondary' : ''">
+													<td th:text="${product.id}">
+
+													</td>
+													<td><img th:src="${product.image}" width="80px" height="50px" style="object-fit: cover;"></td>
+													<td th:text="${product.name}"></td>
+													<td
+														th:text="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT') + 'VND'}">
+													</td>
+													<td>
+														<span th:if="${product.promotionalPrice != null}"
+															th:text="${#numbers.formatDecimal(product.promotionalPrice, 0, 'POINT', 0, 'POINT') + 'VND'}"></span>
+													</td>
+													<td
+														th:text="${product.category != null ? product.category.name: ''}">
+													</td>
+													<td th:text="${product.createdAt}"></td>
+													<td th:text="${product.updatedAt}"></td>
+
+													<td class="d-flex">
+														<a th:href="@{/dashboard/product/{id} (id=${product.id})}"
+															class="btn btn-success mr-1"><i
+																class="fa-solid fa-pen-to-square"></i></a>
+														<a th:href="@{/dashboard/product/delete/{id} (id=${product.id})}"
+															class="btn btn-danger mr-2"><i
+																class="fa-solid fa-trash-can"></i></button>
+															<a th:href="@{/dashboard/product/pin/{id} (id=${product.id})}" th:if="${!pinnedProductIds.contains(product.id)}"
+																class="btn btn-primary mr-1"><i
+																	class="fa-solid fa-map-pin"></i></a>
+															<a th:href="@{/dashboard/product/un-pin/{id} (id=${product.id})}" th:if="${pinnedProductIds.contains(product.id)}"
+															 class="btn btn-primary"><i
+																	class="fa-solid fa-xmark"></i></a>
+													</td>
+
+												</tr>
+
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+		<th:block th:insert="~{Dashboard/fragment/layout :: footer}"></th:block>
+
+</body>

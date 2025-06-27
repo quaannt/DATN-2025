@@ -1,0 +1,116 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>
+		Discount
+	</title>
+	<th:block th:insert="~{Dashboard/fragment/layout :: head}"></th:block>
+</head>
+
+<body>
+	<div class="wrapper ">
+		<div class="sidebar" data-color="white" data-active-color="danger">
+
+			<th:block th:insert="~{Dashboard/fragment/layout :: bar}"></th:block>
+			<div class="main-panel">
+				<!-- Navbar -->
+				<th:block th:insert="~{Dashboard/fragment/layout :: navtop}"></th:block>
+				<!-- End Navbar -->
+
+				<div class="content">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="alert alert-info alert-dismissible fade show" th:if="${success != null}">
+									<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<i class="nc-icon nc-simple-remove"></i>
+									</button>
+									<span><b th:text="${success}"> </b> </span>
+								</div>
+								<div class="alert alert-danger alert-dismissible fade show" th:if="${danger != null}">
+									<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<i class="nc-icon nc-simple-remove"></i>
+									</button>
+									<span><b th:text="${danger}"> </b></span>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="card">
+									<div class="card-header">
+										<h5 class="card-title">Quản lý đánh giá</h5>
+									</div>
+									<div class="input-group no-border col-12">
+										<input type="text" value="" class="form-control"
+											placeholder="Tìm kiếm đánh giá...">
+										<div class="input-group-append">
+											<div class="input-group-text">
+												<i class="nc-icon nc-zoom-split"></i>
+											</div>
+										</div>
+									</div>
+									<div class="card-body">
+										<table class="table">
+											<thead>
+												<tr>
+													<th scope="col">Người đánh giá</th>
+													<th scope="col">Đánh giá</th>
+													<th scope="col">Nội dung</th>
+													<th scope="col">Sản phẩm</th>
+													<th scope="col"></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="review : ${reviews}">
+													<td th:text="${review.orderDetail.order.user.email}"></td>
+													<td class="text-warning">
+														<span th:switch="${review.rating}">
+															<span th:case="1">
+																<i class="fas fa-star"></i>
+															</span>
+															<span th:case="2">
+																<i class="fas fa-star"></i><i class="fas fa-star"></i>
+															</span>
+															<span th:case="3">
+																<i class="fas fa-star"></i><i class="fas fa-star"></i><i
+																	class="fas fa-star"></i>
+															</span>
+															<span th:case="4">
+																<i class="fas fa-star"></i><i class="fas fa-star"></i><i
+																	class="fas fa-star"></i><i class="fas fa-star"></i>
+															</span>
+															<span th:case="5">
+																<i class="fas fa-star"></i><i class="fas fa-star"></i><i
+																	class="fas fa-star"></i><i
+																	class="fas fa-star"></i><i class="fas fa-star"></i>
+															</span>
+														</span>
+													</td>
+													<td th:text="${review.comment}"></td>
+													<td th:text="${review.product.name}"></td>
+													<td>
+														<a th:href="@{/productDetail/{productId} (productId=${review.product.id})}"
+															class="btn btn-outline-success"><i
+																class="fa-solid fa-eye"></i></a>
+														<a th:href="@{/dashboard/review/delete/{id} (id=${review.id})}"
+															class="btn btn-danger"><i
+																class="fa-solid fa-trash-can"></i></a>
+													</td>
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+			<th:block th:insert="~{Dashboard/fragment/layout :: footer}"></th:block>
+
+</body>

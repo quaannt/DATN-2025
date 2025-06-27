@@ -1,0 +1,42 @@
+<html lang="en">
+<html>
+<head>
+	<title> Confirm </title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+	<link href="User/css/login.css" rel="stylesheet">
+</head>
+<body class="sub_page" style="background-color: rgb(226, 226, 226);">
+	<div class="back-ground_navbar">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+	</div>
+
+	<form class="login-form mt-5 mb-5" action="/confirm" method="post">
+		<h5 class="px-5 mx-4" style="font-weight: 600;">Xác thực mã token được gửi về email đăng ký để kích hoạt tài khoản của bạn!</h5>
+		<div class="container">
+			<div class="text-form">
+				<input type="number" class="form-input" name="token" id="token" placeholder=" " autocomplete="off"
+					required>
+				<label class="form-lable" for="email">Token</label>
+			</div>
+			
+			<th:block th:if="${res != null && res.hasError}">
+				
+				<div class="alert alert-danger d-flex align-items-center" role="alert">
+					 <i class="fa-solid fa-triangle-exclamation"></i>
+					<div class="ml-2">
+						<a th:text="${res.message}"></a>
+					</div>
+				</div>
+			</th:block>
+			<div class="button-form">
+				<button type="submit" class="btn btn-success w-50"
+					style="color: white; font-weight: 600; border-radius: 20px;">Kích hoạt tài khoản</button>
+				
+			</div>
+		</div>
+	</form>
+
+	
+</body>
+
+</html>

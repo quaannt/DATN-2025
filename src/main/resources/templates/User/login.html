@@ -1,0 +1,52 @@
+<html lang="en">
+<html>
+
+<head>
+	<title>Login</title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+	<link href="User/css/login.css" rel="stylesheet">
+</head>
+
+<body class="sub_page" style="background-color: rgb(226, 226, 226);">
+	<div class="back-ground_navbar"  style="margin-top: 180px;">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+	</div>
+
+	<form class="login-form mt-5 mb-5" action="/login" method="post">
+		<div class="title">Đăng nhập bằng tài khoản của bạn</div>
+		<div class="container">
+			<div class="text-form">
+				<input type="text" class="form-input" name="email" id="email" placeholder=" " autocomplete="off"
+					required>
+				<label class="form-lable" for="email">Email</label>
+			</div>
+			<div class="text-form">
+				<input type="password" class="form-input" name="password" id="password" placeholder=" "
+					autocomplete="off" required>
+				<label class="form-lable" for="password">Password</label>
+			</div>
+			<th:block th:if="${res != null && res.hasError}">
+				
+				<div class="alert alert-danger d-flex align-items-center" role="alert">
+					 <i class="fa-solid fa-triangle-exclamation"></i>
+					<div class="ml-2">
+						<a th:text="${res.message}"></a>
+					</div>
+				</div>
+			</th:block>
+			<div class="button-form">
+				<button type="submit" class="btn btn-brown w-50"
+					style="color: white; font-weight: 600; border-radius: 20px;">Đăng nhập</button>
+				<a class="account-text" href="#">Quên mật khẩu</a>
+				<a class="btn-link account-text" href="/register">
+					Bạn chưa có tài khoản? Tạo tài khoản ngay
+					<i class="fa-solid fa-pen-to-square"></i>
+				</a>
+			</div>
+		</div>
+	</form>
+
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+</body>
+
+</html>
