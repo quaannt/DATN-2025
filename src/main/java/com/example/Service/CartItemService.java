@@ -31,5 +31,12 @@ public class CartItemService {
 		cartItemRepository.deleteById(id);;
 	}
 	
+	public List<CartItem> findAllByProductId(int productId){
+		return cartItemRepository.findAllByProductId(productId);
+	}
+	
+	public List<CartItem> findByCart(Cart cart){
+		return cartItemRepository.findByCart(cart);
+	}
 	
 }

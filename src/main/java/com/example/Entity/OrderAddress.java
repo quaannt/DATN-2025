@@ -1,6 +1,5 @@
 package com.example.Entity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -10,10 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,30 +21,31 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "order_product")
-public class OrderProduct {
+@Table(name = "order_address")
+public class OrderAddress {
 
 	@Column(name = "id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "name", length = 100, nullable = false)
-	private String name;
+	@Column(name = "apartment_number", length = 100, nullable = false)
+	private String apartmentNumber;
 	
-	@Column(name = "image", length = 500, nullable = true)
-	private String image;
+	@Column(name = "ward", length = 100,nullable = false)
+	private String ward;
+	
+	@Column(name = "district", length = 100, nullable = false)
+	private String district;
+	
+	@Column(name = "city", length = 100, nullable = false)
+	private String city;
+	
+	@Column(name = "phone_number", length = 100, nullable = false)
+	private String phoneNumber;
 	
 
-	@Column(name = "price", length = 50, nullable = false)
-	private Double price;
-	
-	@ManyToOne
-	@JoinColumn(name = "product_id")
-	private Product product;
-	
-	@OneToMany(mappedBy = "orderProduct", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	private List<OrderDetail> orderDetail;
-	
+	@OneToMany(mappedBy = "orderAddress", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	private List<Order> order;
 	
 }

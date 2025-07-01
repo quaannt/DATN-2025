@@ -26,7 +26,7 @@
 								style="font-weight: 600;">Thông tin cá nhân</a>
 
 							<a href="/order" class="list-group-item list-group-item-action ">Thông tin đơn hàng</a>
-							<a href="#" class="list-group-item list-group-item-action ">Đổi mật khẩu</a>
+							<!-- <a href="#" class="list-group-item list-group-item-action ">Đổi mật khẩu</a> -->
 							<a href="/logout" class="list-group-item list-group-item-action bg-danger"
 								style="color: white;">Đăng xuất</a>
 						</div>
@@ -94,8 +94,10 @@
 												<td th:text="${address.apartmentNumber} + ', ' + ${address.ward} + ', ' + ${address.district} + ', ' + ${address.city}"></td>
 												<td class="text-left"> <a th:text="${address.phoneNumber}"></a></td>
 												<td class="text-right">
-													<a class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
-													<a th:href="@{/address/delete/{id} (id=${address.id})}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+													<a class="btn btn-success" th:href="@{/address/{id} (id=${address.id})}"><i class="fa-solid fa-pen-to-square"></i></a>
+													<a th:href="@{/address/delete/{id} (id=${address.id})}" class="btn btn-danger"
+													 onclick="return confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')"
+													><i class="fa-solid fa-trash-can"></i></a>
 												</td>
 											</tr>
 											
@@ -115,6 +117,7 @@
 	</div>
 
 	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+		<th:block th:insert="~{User/fragment/layout :: toast}"></th:block>
 </body>
 
 </html>

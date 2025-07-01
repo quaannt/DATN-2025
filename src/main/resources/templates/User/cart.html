@@ -14,13 +14,13 @@
 
 
 
-	<section class="ftco-section ftco-cart " style="margin-top: 180px;">
+	<section class="ftco-section ftco-cart mb-2 " style="margin-top: 180px;">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 ftco-animate  ">
-					<div class="cart-list bg-white pb-2" style="border-radius: 20px; ">
+					<div class="cart-list bg-white pb-2 overflow-hidden rounded" >
 						<table class="table">
-							<thead class="thead-primary" style="background-color: #18481ae5; color: white;">
+							<thead class="thead-primary bg-brown" style="color: white;">
 
 								<tr class="text-center">
 									<th>&nbsp;</th>
@@ -123,7 +123,7 @@
 
 		});
 	</script>
-	<div class="container d-flex my-4 justify-content-end" style="width: 100%;">
+	<div class="container d-flex my-3 justify-content-end" style="width: 100%;" th:if="${cartTotal != null}">
 		<nav class="ms-auto" style="width: 30%;">
 			<div class="p-4 bg-white" style=" border-radius: 20px; ">
 				<div class="flex justify-between pb-2">

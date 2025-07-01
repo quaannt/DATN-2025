@@ -83,9 +83,9 @@ public class HomeController {
 		return "User/menu";
 	}
 	
-	@GetMapping(value = "/about")
+	@GetMapping(value = "/about-us")
 	public String about() {
-		return "User/about";
+		return "User/about-us";
 	}
 
 }

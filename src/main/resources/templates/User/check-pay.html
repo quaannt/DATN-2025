@@ -1,0 +1,42 @@
+<html lang="en">
+<html>
+
+<head>
+	<title> Thanh toán </title>
+	<th:block th:insert="~{User/fragment/layout :: head}"></th:block>
+</head>
+
+<body class="bg-gray-100">
+
+	<div class="back-ground_navbar">
+		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
+
+	</div>
+	<!-- food section -->
+
+	<section class="container mb-5" style="margin-top: 180px;">
+			
+		<div class="p-2 rounded border shadow-sm" style="margin: 0 auto; max-width: 480px; width: 100%;">
+		<p class="text-center">Quét mã để thanh toán:</p>
+			<img th:src="${QR}" class="w-100 rounded">
+			<div class="d-flex justify-content-between">
+			<span>Số tiền thanh toán:</span>
+			 <span class="fw-bold fs-5 text-success" th:text="${#numbers.formatDecimal(order.totalPaymentAmount ,1, 'POINT',0, 'COMMA') + 'VND'}"></span>
+			</div>
+		</div>
+
+	</section>
+
+
+
+
+	<!-- end food section -->
+
+	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
+	<!-- footer section -->
+	<th:block th:insert="~{User/fragment/layout :: cart-box}"></th:block>
+
+
+</body>
+
+</html>

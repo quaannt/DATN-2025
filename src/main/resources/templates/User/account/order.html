@@ -28,7 +28,7 @@
 
 							<a href="/order" class="list-group-item list-group-item-secondary "
 								style="font-weight: 600;">Thông tin đơn hàng</a>
-							<a href="#" class="list-group-item list-group-item-action ">Đổi mật khẩu</a>
+							<!-- <a href="#" class="list-group-item list-group-item-action ">Đổi mật khẩu</a> -->
 							<a  href="/logout" class="list-group-item list-group-item-action bg-danger"
 								style="color: white;">Đăng xuất</a>
 						</div>
@@ -78,7 +78,7 @@
 												</h6>
 												<h6><a style="font-size: 13px;">Số điện thoại người nhận: </a>
 													<a style="color: black; font-weight: 600;"
-														th:text="${order.address.phoneNumber}"></a>
+														th:text="${order.orderAddress.phoneNumber}"></a>
 												</h6>
 											</div>
 											<div th:if="${order.orderStatus == 'PAYING'}">
@@ -90,6 +90,8 @@
 												<span class="badge bg-secondary"
 													th:if="${order.orderStatus eq 'APPLYING'}">Đang lên
 													đơn</span>
+													<span class="badge bg-secondary"
+													th:if="${order.orderStatus eq 'WAITING'}">Đang chờ thanh toán</span>
 												<span class="badge bg-success"
 													th:if="${order.orderStatus eq 'SHIPPING'}">Đang giao
 													hàng</span>
@@ -126,7 +128,7 @@
 											<thead>
 												<tr>
 													<th scope="col"></th>
-													<th scope="col">Tên món</th>
+													<th scope="col">Tên</th>
 													<th scope="col">Giá</th>
 													<th scope="col">Số lượng</th>
 													<th scope="col">Tổng tiền</th>
@@ -136,7 +138,7 @@
 											<tbody>
 												<tr th:each="orderDetail : ${order.orderDetails}">
 													<td><img th:src="${orderDetail.orderProduct.image}"
-															style="width: 60px; height: 40px; border-radius: 12px;">
+															style="width: 60px; height: 40px; border-radius: 12px; object-fit: cover;">
 													</td>
 													<td th:text="${orderDetail.orderProduct.name}"></td>
 													<td>
@@ -172,7 +174,7 @@
 																				id="exampleModalLabel">
 																				Đánh giá món: <span
 																					style="color: darkgreen;"
-																					th:text="${orderDetail.product.name}"></span>
+																					th:text="${orderDetail.orderProduct.name}"></span>
 																			</h5>
 
 																			<button type="button" class="btn-close"
@@ -234,7 +236,7 @@
 														class="text-center">Vận chuyển</th>
 													<td colspan="2">
 														<span
-															th:text="${#numbers.formatDecimal(order.shipment.price, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+															th:text="${#numbers.formatDecimal(order.orderShipment.price, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
 													</td>
 												</tr>
 												<tr>
@@ -248,8 +250,10 @@
 												</tr>
 											</tbody>
 
-
 										</table>
+										
+										<a class="btn btn-success w-100" th:href="@{/order/check-pay/{id} (id=${order.id})}" th:if="${order.paymentMethod == 'CASH_ONLINE' and order.paymentStatus == 'UNPAID'}">Thanh toán</a>
+										
 										<div th:if="${order.orderStatus == 'PAYING'}" class="d-flex justify-end">
 											<form th:action="@{/order/received}" method="post">
 												<input hidden th:value="${order.id}" name="orderId">
@@ -278,7 +282,7 @@
 	</div>
 
 
-
+	<th:block th:insert="~{User/fragment/layout :: toast}"></th:block>
 	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
 
 </body>

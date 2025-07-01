@@ -38,7 +38,7 @@
 										</div>
 										<div class="mb-3 col-md-12">
 											<label for="exampleInputEmail1" class="form-label">Giá trị</label>
-											<input th:filed="*{price}" type="number" class="form-control" id="price" name="price"
+											<input type="number" class="form-control" id="price" name="price" th:value="${shipment.price}" min="0"
 												aria-describedby="emailHelp">
 
 										</div>
@@ -73,18 +73,10 @@
 								<div class="card-header">
 									<h4 class="card-title"> Danh sách vận chuyển</h4>
 								</div>
-								<div class="input-group no-border col-12">
-									<input type="text" value="" class="form-control"
-										placeholder="Tìm kiếm vận chuyển...">
-									<div class="input-group-append">
-										<div class="input-group-text">
-											<i class="nc-icon nc-zoom-split"></i>
-										</div>
-									</div>
-								</div>
+								
 								<div class="card-body">
 									<div class="table-responsive">
-										<table class="table">
+										<table class="table"  id="example">
 											<thead class=" text-primary">
 												<th>Id</th>
 												<th>Tên vận chuyển</th>
@@ -103,6 +95,7 @@
 															class="btn btn-success"> <i
 																class="fa-solid fa-pen-to-square"></i></a>
 														<a th:href="@{/dashboard/shipment/delete/{id} (id=${shipment.id})}"
+														 onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
 															class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
 													</td>
 												</tr>

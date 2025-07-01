@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -55,6 +56,10 @@ public class Order {
 	@Column(name = "payment_method", length = 250, nullable = true)
 	private String paymentMethod;
 	
+	@Column(name = "note", columnDefinition = "TEXT")
+	@Lob
+	private String note;
+	
 	@ManyToOne
 	@JoinColumn(name = "order_discount_id")
 	private OrderDiscount orderDiscount;
@@ -68,8 +73,8 @@ public class Order {
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name = "address_id")
-	private Address address;
+	@JoinColumn(name = "order_address_id")
+	private OrderAddress orderAddress;
 	
 
 	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

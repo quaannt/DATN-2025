@@ -63,11 +63,13 @@ public class User {
 	@OneToOne(mappedBy = "user",cascade = CascadeType.REMOVE)
 	private Cart cart;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Order> orders;
 	
 
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Address> address;
+	
+
 }

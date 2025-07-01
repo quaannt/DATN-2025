@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.Entity.DiscountCode;
 import com.example.Entity.Order;
 import com.example.Entity.Product;
 import com.example.Entity.User;
+import com.example.Service.DiscountService;
 import com.example.Service.OrderService;
 import com.example.Service.ProductService;
 import com.example.Service.UserService;
@@ -30,6 +32,9 @@ public class HomeController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	DiscountService discountService;
+	
 	@GetMapping("/index")
 	public String indexDashboard(HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
@@ -44,6 +49,8 @@ public class HomeController {
 			List<User> users = userService.findAll();
 			int numberOfUsers = users.size();
 			model.addAttribute("numberOfUsers", numberOfUsers);
+			List<DiscountCode> DiscountCodes = discountService.findAll();
+			model.addAttribute("numberOfDiscountCode", DiscountCodes.size());
 			
 			return "Dashboard/index";
 		}else {

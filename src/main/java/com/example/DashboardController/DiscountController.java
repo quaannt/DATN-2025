@@ -51,9 +51,12 @@ public class DiscountController {
 		model.addAttribute("discountCodes", discountCodes);
 		try {
 			DiscountCode existingCode = discountService.findByCode(code);
-			if(existingCode != null) {
+			if(existingCode != null && existingCode.getId() != discountCode.getId()) {
 				redirectAttributes.addFlashAttribute("danger", "Mã giảm giá này đã tồn tại!");
 				return "redirect:/dashboard/discount";
+			}
+			if(discountCode.getId() != 0) {
+				discountCode.setCreateDate(existingCode.getCreateDate());
 			}
 			discountService.save(discountCode);
 			redirectAttributes.addFlashAttribute("success", "Lưu mã giảm giá thành công!");

@@ -10,7 +10,7 @@
 		<th:block th:insert="~{User/fragment/layout :: header}"></th:block>
 	</div>
 
-	<form class="login-form mt-5 mb-5" action="/confirm" method="post">
+	<form class="login-form  mb-5" style="margin-top: 180px;" action="/confirm" method="post">
 		<h5 class="px-5 mx-4" style="font-weight: 600;">Xác thực mã token được gửi về email đăng ký để kích hoạt tài khoản của bạn!</h5>
 		<div class="container">
 			<div class="text-form">
@@ -36,7 +36,7 @@
 		</div>
 	</form>
 
-	
+	<th:block th:insert="~{User/fragment/layout :: toast}"></th:block>
 </body>
 
 </html>

@@ -28,7 +28,7 @@
 								<div class="card-body">
 									<form th:object="${order}" id="form" action="/dashboard/order/update" method="post">
 										<input name="orderId" th:value="${order.id}" hidden>
-										<div>
+										<div th:if="${order.orderStatus != 'WAITING'}">
 											<label for="inputState" class="form-label">Trạng thái đơn hàng</label>
 											<select class="form-control" th:field="*{orderStatus}" name="orderStatus">
 												<option th:value="'APPLYING'" th:text="'Đang lên đơn'"
@@ -67,8 +67,12 @@
 											</select>
 										</div>
 										<div>
-											<button type="submit" class="btn btn-primary mb-0">Cập nhật thông
+											<button th:if="${order.orderStatus != 'WAITING'}" type="submit" class="btn btn-primary mb-0">Cập nhật thông
 												tin</button>
+												
+											<div th:if="${order.orderStatus == 'WAITING'}" class="alert alert-warning mt-1" role="alert" >
+ Đơn hàng này chưa được thanh toán!
+</div>
 										</div>
 									</form>
 								</div>
@@ -91,13 +95,13 @@
 										<div class="mt-2">
 											<label for="inputState" class="form-label">Địa chỉ nhận hàng</label>
 											<input
-												th:value="${order.address.apartmentNumber + ', ' + order.address.ward + ', ' + order.address.district + ', ' + order.address.city}"
+												th:value="${order.orderAddress.apartmentNumber + ', ' + order.orderAddress.ward + ', ' + order.orderAddress.district + ', ' + order.orderAddress.city}"
 												class="form-control" type="text" placeholder="Default input" disabled
 												style="background-color: #fff;">
 										</div>
 										<div class="mt-2">
 											<label for="inputState" class="form-label">Số điện thoại nhận hàng</label>
-											<input th:value="${order.address.phoneNumber}" class="form-control"
+											<input th:value="${order.orderAddress.phoneNumber}" class="form-control"
 												type="text" placeholder="Default input" disabled
 												style="background-color: #fff;">
 										</div>
@@ -120,7 +124,7 @@
 							</div>
 						</div>
 
-						<div class="col-4">
+						<div class="col-4" >
 							<div class="card">
 								<div class="card-header">
 									<h4 class="card-title">Chi tiết đơn hàng</h4>
@@ -139,32 +143,36 @@
 										<tbody th:each="orderItem : ${order}">
 											<tr th:each="item : ${order.orderDetails}">
 												<td th:text="${item.id}"></td>
-												<td th:text="${item.product.name}"></td>
+												<td th:text="${item.orderProduct.name}"></td>
+												
 												<td>
-													<span th:if="${item.product.promotionalPrice ne null}"
-														class="price-sale">
+													
 														<span
-															th:text="${#numbers.formatDecimal(item.product.promotionalPrice, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
-													</span>
-													<span th:unless="${item.product.promotionalPrice ne null}"
-														th:text="${#numbers.formatDecimal(item.product.price, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+															th:text="${#numbers.formatDecimal(item.orderProduct.price, 0, 'POINT', 0, 'POINT')} + 'VND'"></span>
+													
 												</td>
 												<td th:text="${item.quantity}"></td>
 												<td
 													th:text="${#numbers.formatDecimal(item.totalAmount, 0, 'POINT', 0, 'POINT')} + 'VND'">
 												</td>
 											</tr>
-
+<tr th:if="${order.orderDiscount != null}">
+												<td colspan="4" class="text-center">Giảm giá</td>
+												<td
+													th:text="'- ' + ${#numbers.formatDecimal(order.orderDiscount.discountValue, 0, 'POINT', 0, 'COMMA')} + '%'">
+												</td>
+											</tr>
 											<tr>
 												<td colspan="4" class="text-center">Tổng đơn hàng</td>
 												<td
 													th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'POINT', 0, 'POINT')} + 'VND'">
 												</td>
 											</tr>
+											
 											<tr>
 												<td colspan="4" class="text-center">Vận chuyển</td>
 												<td
-													th:text="${#numbers.formatDecimal(order.shipment.price, 0, 'POINT', 0, 'POINT')} + 'VND'">
+													th:text="${#numbers.formatDecimal(order.orderShipment.price, 0, 'POINT', 0, 'POINT')} + 'VND'">
 												</td>
 											</tr>
 											<tr>
@@ -175,6 +183,11 @@
 											</tr>
 										</tbody>
 									</table>
+									
+								<div class="mt-2 border rounded p-2">
+									<p>Ghi chú:</p>
+									<p th:text="${order.note}"></p>
+								</div>
 								</div>
 							</div>
 						</div>

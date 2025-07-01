@@ -62,21 +62,14 @@
 								<div class="card-header">
 									<h4 class="card-title"> Danh sách danh mục</h4>
 								</div>
-								<div class="input-group no-border col-12">
-									<input type="text" value="" class="form-control" placeholder="Tìm kiếm danh mục...">
-									<div class="input-group-append">
-										<div class="input-group-text">
-											<i class="nc-icon nc-zoom-split"></i>
-										</div>
-									</div>
-								</div>
-								<div class="card-body">
+								
+								<div class="card-body" >
 									<div class="table-responsive">
-										<table class="table">
+										<table class="table"  id="example">
 											<thead class=" text-primary">
 												<th>Id</th>
 												<th>Tên danh mục</th>
-												<th></th>
+												<th>tùy chỉnh</th>
 
 											</thead>
 											<tbody>
@@ -88,6 +81,7 @@
 															class="btn btn-success"> <i
 																class="fa-solid fa-pen-to-square"></i></a>
 														<a th:href="@{/dashboard/category/delete/{id} (id = ${category.id})}"
+														 onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
 															class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
 													</td>
 												</tr>

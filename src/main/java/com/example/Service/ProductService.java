@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Entity.OrderProduct;
 import com.example.Entity.Product;
 import com.example.Repository.ProductRepository;
 
@@ -28,6 +29,7 @@ public class ProductService {
 	}
 	
 	public void deleteById(int id) {
+
 		productRepository.deleteById(id);
 	}
 	

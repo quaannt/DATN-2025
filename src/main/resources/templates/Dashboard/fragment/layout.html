@@ -23,7 +23,7 @@
 	<div class="logo">
 		<a class="simple-text logo-mini">
 			<div class="logo-image-small">
-				<img th:src="${session.user.image}" style="width: 40px; height: 40px; border-radius: 50%">
+				<img th:src="${session.user.image}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
 			</div>
 			<!-- <p>CT</p> -->
 		</a>
@@ -44,7 +44,7 @@
 			<li>
 				<a href="/dashboard/product">
 					<i class="fa-solid fa-utensils"></i>
-					<p>Quản lý món ăn</p>
+					<p>Quản lý sản phẩm</p>
 				</a>
 			</li>
 			<li>
@@ -203,6 +203,21 @@
 			// Javascript method's body can be found in assets/assets-for-demo/js/demo.js
 			demo.initChartsPages();
 		});
+	</script>
+	
+	
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+	<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+	<script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+		$('#example').DataTable({
+			order : []
+		});
+	});
+	
 	</script>
 </th:block>
 

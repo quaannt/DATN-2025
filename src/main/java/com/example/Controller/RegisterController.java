@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.Config.TokenGenerator;
 import com.example.Entity.User;
@@ -80,16 +81,17 @@ public class RegisterController {
 	}
 	
 	@PostMapping("/confirm")
-	public String confirmToken(@RequestParam("token")String token, Model model) {
+	public String confirmToken(@RequestParam("token")String token, Model model, RedirectAttributes redirectAttributes) {
 		User user = userService.findByToken(token);
 		if(user != null) {
 			
 			user.setEnabled(true);
 			userService.save(user);
+			redirectAttributes.addFlashAttribute("success", "Kích hoạt tài khoản thành công! vui lòng đăng nhập.");
 			return "redirect:/login";
 		}else {
-			model.addAttribute("res", new Res(true ,"Mã token này không hợp lệ!"));
-			return "/confirm";
+			redirectAttributes.addFlashAttribute("danger", "Mã token không hợp lệ!");
+			return "redirect:/confirm";
 		}
 		
 		

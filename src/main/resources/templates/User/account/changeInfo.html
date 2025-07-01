@@ -26,7 +26,7 @@
 								style="font-weight: 600;">Thông tin cá nhân</a>
 
 							<a href="/order" class="list-group-item list-group-item-action ">Thông tin đơn hàng</a>
-							<a href="#" class="list-group-item list-group-item-action ">Đổi mật khẩu</a>
+							<!-- <a href="#" class="list-group-item list-group-item-action ">Đổi mật khẩu</a> -->
 							<a  href="/logout" class="list-group-item list-group-item-action bg-danger"
 								style="color: white;">Đăng xuất</a>
 						</div>
@@ -39,14 +39,7 @@
 					<div class="my-3 ">
 						<h3 style="font-weight: 800; font-size: 30px;">QUẢN LÝ TÀI KHOẢN</h3>
 					</div>
-					<div class="col-12">
-						<div class="alert alert-danger alert-dismissible fade show" th:i ismiss="alert"
-								aria-label="Close">
-								<i class="nc-icon nc-simple-remove"></i>
-							</button>
-							<span><b th:text="${danger}"> </b></span>
-						</div>
-					</div>
+					
 					<div class="col-12">
 						<div class="card p-3" style="border: 1px solid #18481ae5; ">
 							<form class="row g-3" method="post" th:object="${user}" action="/changeInfo/save"
@@ -60,7 +53,7 @@
 										<img id="previewImage"
 											th:src="${(user.image != null ? session.user.image : 'https://cdn.sforum.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg')}"
 											class="img-thumbnail"
-											style="border-radius: 50%; width: 180px; height: 180px;" alt="...">
+											style="border-radius: 50%; width: 180px; height: 180px; object-fit: cover;" alt="...">
 
 									</div>
 								</div>
@@ -112,7 +105,7 @@
 			}
 		}
 	</script>
-
+	<th:block th:insert="~{User/fragment/layout :: toast}"></th:block>
 	<th:block th:insert="~{User/fragment/layout :: footer}"></th:block>
 
 </body>

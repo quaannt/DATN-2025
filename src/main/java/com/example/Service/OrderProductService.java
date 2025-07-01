@@ -1,5 +1,7 @@
 package com.example.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,10 @@ public class OrderProductService {
 	
 	public void save(OrderProduct orderProduct) {
 		orderProductRepository.save(orderProduct);
+	}
+	
+	public List<OrderProduct> findAllByProductId(int productId){
+		return orderProductRepository.findAllByProductId(productId);
 	}
 	
 	public void createOrderProduct(OrderProduct orderProduct,Product product) {

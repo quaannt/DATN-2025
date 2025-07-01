@@ -37,12 +37,12 @@
 										</div>
 										<div class="col-6 form-group">
 											<label for="price" class="form-label">Giá</label>
-											<input th:field="*{price}" type="number" name="price" class="form-control"
+											<input th:field="*{price}" type="number" name="price" class="form-control" min="0"
 												id="price" required>
 										</div>
 										<div class="col-6 form-group">
 											<label for="promotionalPrice" class="form-label">Giá giảm</label>
-											<input th:field="*{promotionalPrice}" type="number" name="promotionalPrice"
+											<input th:field="*{promotionalPrice}" type="number" name="promotionalPrice" min="0"
 												class="form-control" id="promotionalPrice">
 										</div>
 										<div class="col-md-8 ">
@@ -109,17 +109,10 @@
 								<div class="card-header">
 									<h4 class="card-title">Danh sách món ăn</h4>
 								</div>
-								<div class="input-group no-border col-12">
-									<input type="text" value="" class="form-control" placeholder="Tìm kiếm món ăn...">
-									<div class="input-group-append">
-										<div class="input-group-text">
-											<i class="nc-icon nc-zoom-split"></i>
-										</div>
-									</div>
-								</div>
+								
 								<div class="card-body">
 									<div class="table-responsive">
-										<table class="table">
+										<table class="table" id="example">
 											<thead class=" text-primary">
 												<th>Id</th>
 												<th>Ảnh</th>
@@ -158,6 +151,7 @@
 															class="btn btn-success mr-1"><i
 																class="fa-solid fa-pen-to-square"></i></a>
 														<a th:href="@{/dashboard/product/delete/{id} (id=${product.id})}"
+														 onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
 															class="btn btn-danger mr-2"><i
 																class="fa-solid fa-trash-can"></i></button>
 															<a th:href="@{/dashboard/product/pin/{id} (id=${product.id})}" th:if="${!pinnedProductIds.contains(product.id)}"

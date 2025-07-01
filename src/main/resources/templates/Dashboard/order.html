@@ -18,9 +18,9 @@
 				<!-- End Navbar -->
 
 				<div class="content">
-					<div class="container">
+					<div class="">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-12">
 								<div class="alert alert-info alert-dismissible fade show" th:if="${success != null}">
 									<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
 										aria-label="Close">
@@ -36,22 +36,14 @@
 									<span><b th:text="${danger}"> </b></span>
 								</div>
 							</div>
-							<div class="col-md-12">
+							<div class="col-12 ">
 								<div class="card">
 									<div class="Card-header">
 										<h4 class="card-title">Quản lý đơn hàng</h4>
 									</div>
-									<div class="input-group no-border col-12">
-										<input type="text" value="" class="form-control"
-											placeholder="Tìm kiếm đơn hàng theo email, ID...">
-										<div class="input-group-append">
-											<div class="input-group-text">
-												<i class="nc-icon nc-zoom-split"></i>
-											</div>
-										</div>
-									</div>
+									
 									<div class="col-12">
-										<table class="table ">
+										<table class="table "  id="example">
 											<thead>
 												<tr>
 													<th scope="col">ID</th>
@@ -67,7 +59,7 @@
 
 												<tr th:each="order : ${orders}">
 													<td th:text="${order.id}"></td>
-													<td th:text="${order.address.phoneNumber}"></td>
+													<td th:text="${order.orderAddress.phoneNumber}"></td>
 													<td
 														th:text="${#numbers.formatDecimal(order.totalPaymentAmount, 0, 'POINT', 0, 'POINT') + 'VND'}">
 													</td>
@@ -76,6 +68,8 @@
 														<span class="badge bg-secondary"
 															th:if="${order.orderStatus eq 'APPLYING'}">Đang lên
 															đơn</span>
+																<span class="badge bg-secondary"
+															th:if="${order.orderStatus eq 'WAITING'}">Đang chờ thanh toán</span>
 														<span class="badge bg-success"
 															th:if="${order.orderStatus eq 'SHIPPING'}">Đang giao
 															hàng</span>
@@ -104,6 +98,7 @@
 															<i class="fa-solid fa-eye"></i>
 														</a>
 														<a th:href="@{/dashboard/order/delete/{id} (id=${order.id})}"
+														 onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
 															class="btn btn-danger">
 															<i class="fa-solid fa-trash"></i>
 														</a>

@@ -107,18 +107,10 @@
 								<div class="card-header">
 									<h4 class="card-title"> Danh sách người dùng</h4>
 								</div>
-								<div class="input-group no-border col-12">
-									<input type="text" value="" class="form-control"
-										placeholder="Tìm kiếm người dùng...">
-									<div class="input-group-append">
-										<div class="input-group-text">
-											<i class="nc-icon nc-zoom-split"></i>
-										</div>
-									</div>
-								</div>
+								
 								<div class="card-body">
 									<div class="table-responsive">
-										<table class="table">
+										<table class="table"  id="example">
 											<thead class=" text-primary">
 												<th>Ảnh</th>
 												<th>Id</th>
@@ -141,6 +133,7 @@
 															th:href="@{/dashboard/user/{id} (id = ${user.id})}"> <i
 																class="fa-solid fa-pen-to-square"></i></a>
 														<a class="btn btn-danger"
+														 onclick="return confirm('Bạn có chắc chắn muốn xóa?')"
 															th:href="@{/dashboard/user/delete/{id} (id = ${user.id})}"><i
 																class="fa-solid fa-trash"></i></a>
 													</td>

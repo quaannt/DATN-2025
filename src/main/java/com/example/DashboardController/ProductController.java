@@ -27,12 +27,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.Config.UploadService;
+import com.example.Entity.CartItem;
 import com.example.Entity.Category;
+import com.example.Entity.OrderProduct;
 import com.example.Entity.PinnedProduct;
 import com.example.Entity.Product;
 import com.example.Entity.User;
 import com.example.Repository.CategoryRepository;
+import com.example.Service.CartItemService;
 import com.example.Service.CategoryService;
+import com.example.Service.OrderProductService;
 import com.example.Service.PinnedProductService;
 import com.example.Service.ProductService;
 
@@ -54,6 +58,12 @@ public class ProductController {
 
 	@Autowired
 	UploadService uploadService;
+	
+	@Autowired
+	OrderProductService orderProductService;
+	
+	@Autowired
+	CartItemService cartItemService;
 	
     @Value("${upload.dir}")
     private String uploadDir;
@@ -90,16 +100,17 @@ public class ProductController {
 			@RequestParam("file") MultipartFile file) {
 
 		try {
-		
+			Product exisingProduct = productService.findById(product.getId()).orElse(null);
 			if(file != null && !file.isEmpty()) {
 				 String filePhoto = uploadService.saveFile(file, "images");
 				 product.setImage(staticFolder + "images/" + filePhoto);
 			}else {
-				Product exisingProduct = productService.findById(product.getId()).orElse(null);
+				
 				product.setImage(exisingProduct.getImage());
 			}
 			
 			System.out.println("Status: " + product.isStatus());
+			
 			productService.save(product);
 			redirectAttributes.addFlashAttribute("success", "Lưu sản phẩm thành công!");
 			return "redirect:/dashboard/product";
@@ -139,10 +150,22 @@ public class ProductController {
 	@GetMapping("/product/delete/{id}")
 	public String deleteProduct(@PathVariable int id, Model model, RedirectAttributes redirectAttributes) {
 		try {
+			List<OrderProduct> orderProducts = orderProductService.findAllByProductId(id);
+			for(OrderProduct orderProduct : orderProducts) {
+				orderProduct.setProduct(null);
+				orderProductService.save(orderProduct);
+			}
+			List<CartItem> cartItems = cartItemService.findAllByProductId(id);
+			for(CartItem cartItem : cartItems) {
+				cartItemService.deleteById(cartItem.getId());
+			}
+			Product product = productService.findById(id).orElse(null);
+			product.getCartItems().clear(); 
 			productService.deleteById(id);
 			redirectAttributes.addFlashAttribute("success", "Xóa sản phẩm thành công!");
 			return "redirect:/dashboard/product";
 		} catch (Exception e) {
+			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("danger", "Xóa sản phẩm thất bại!");
 			return "redirect:/dashboard/product";
 		}

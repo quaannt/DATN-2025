@@ -24,5 +24,6 @@ public class OrderShipmentService {
 	public void createOrderShipment(OrderShipment orderShipment, Shipment shipment) {
 		orderShipment.setName(shipment.getName());
 		orderShipment.setPrice(shipment.getPrice());
+		save(orderShipment);
 	}
 }
