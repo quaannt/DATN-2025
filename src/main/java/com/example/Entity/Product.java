@@ -66,16 +66,12 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Review> reviews;
+
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private List<CartItem> cartItems;
 	
-	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private List<PinnedProduct> pinnedProducts;
-	
+
 	@PrePersist
 	protected void onCreate() {
 		createdAt = LocalDateTime.now();

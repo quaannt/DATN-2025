@@ -1,0 +1,199 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>
+		Support
+	</title>
+	<th:block th:insert="~{Dashboard/fragment/layout :: head}"></th:block>
+</head>
+
+<body>
+	<div class="wrapper ">
+		<div class="sidebar" data-color="white" data-active-color="danger">
+
+			<th:block th:insert="~{Dashboard/fragment/layout :: bar}"></th:block>
+			<div class="main-panel">
+				<!-- Navbar -->
+				<th:block th:insert="~{Dashboard/fragment/layout :: navtop}"></th:block>
+				<!-- End Navbar -->
+
+				<div class="content">
+					<div class="row">
+
+
+						<div  class="col-12">
+             <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center mb-3">
+                  <h3 class="mb-0">Danh sách Support</h3>
+                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSupportModal">
+                    Thêm mới
+                  </button>
+                </div>
+                
+             <div class="card-body">
+             	
+                <table class="table  " id="example">
+                  <thead class="">
+                    <tr>
+                      <th>UniqueID</th>
+                      <th>Tên</th>
+                      <th>Ảnh</th>
+                      <th>Link</th>
+                      <th>Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Lặp qua danh sách support -->
+                    <tr th:each="support : ${supports}">
+  <td th:text="${support.id}"></td>
+  <td th:text="${support.name}"></td>
+  <td>
+    <img th:src="${support.photo}" alt="photo" style="width:50px;height:50px;object-fit:cover;">
+  </td>
+  <td class="text-break url-cell">
+    <a th:if="${support.url}" th:href="${support.url}" th:text="${support.url}" target="_blank"></a>
+  </td>
+   <td>
+      <button class="btn btn-success "
+  data-bs-toggle="modal"
+  data-bs-target="#editSupportModal"
+  th:attr="data-id=${support.id},data-name=${support.name},data-photo=${support.photo},data-link=${support.url}">
+  Chỉnh sửa
+</button>
+    <a th:href="@{/dashboard/support/delete/{id}(id=${support.id})}"
+   class="btn btn-danger"
+   onclick="return confirm('Bạn có chắc chắn muốn xoá mục này?');">
+   Xoá
+</a>
+    </td> 
+</tr>
+                  </tbody> 
+                </table>
+             </div>
+              
+             </div>
+              </div>
+						<div class="col-md-12">
+							<div class="alert alert-info alert-dismissible fade show" th:if="${success != null}">
+								<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<i class="nc-icon nc-simple-remove"></i>
+								</button>
+								<span><b th:text="${success}"> </b> </span>
+							</div>
+							<div class="alert alert-danger alert-dismissible fade show" th:if="${danger != null}">
+								<button type="button" aria-hidden="true" class="close" data-dismiss="alert"
+									aria-label="Close">
+									<i class="nc-icon nc-simple-remove"></i>
+								</button>
+								<span><b th:text="${danger}"> </b></span>
+							</div>
+						</div>
+
+						
+						
+						<div class="modal fade" id="addSupportModal" tabindex="-1" aria-labelledby="addSupportModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                 <form th:action="@{/dashboard/support/add}" method="post" enctype="multipart/form-data" class="modal-content">
+                 
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="addSupportModalLabel">Thêm Support mới</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label class="form-label">Tên</label>
+                        <input type="text" class="form-control" name="name" required>
+                      </div>
+                    <div class="">
+                                <label for="photo" class="form-label">Ảnh</label>
+                                <input type="file" class="form-control" name="photoFile" required="required" />
+                              </div>
+                      <div class="mb-3">
+                        <label class="form-label">Link</label>
+                        <input type="text" class="form-control" name="url">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success">Thêm</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
+              <div class="modal fade" id="editSupportModal" tabindex="-1" aria-labelledby="editSupportModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                   <form th:action="@{/dashboard/support/update}" method="post" enctype="multipart/form-data" class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="editSupportModalLabel">Chỉnh sửa Support</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <div class="modal-body">
+                   <input type="hidden" name="id" id="support-id">
+                      <div class="mb-3">
+                        <label class="form-label">Tên</label>
+                        <input type="text" class="form-control" name="name" id="support-name" required>
+                      </div>
+                      <div class="mb-3 text-center">
+  <img id="support-current-photo" src="" alt="Ảnh hiện tại" style="max-width:100px;max-height:100px;">
+</div>
+<div class="mb-3">
+  <label class="form-label">Ảnh</label>
+  <input type="file" class="form-control" name="photoFile" id="support-photoFile">
+</div>
+                      <div class="mb-3">
+                        <label class="form-label">Link</label>
+                        <input type="text" class="form-control" name="url" id="support-link">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success">Lưu</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
+               <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                  var editModal = document.getElementById('editSupportModal');
+                  editModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+                    document.getElementById('support-id').value = button.getAttribute('data-id');
+                    document.getElementById('support-name').value = button.getAttribute('data-name');
+                    document.getElementById('support-link').value = button.getAttribute('data-link');
+                    // Hiển thị ảnh hiện tại
+                    document.getElementById('support-current-photo').src = button.getAttribute('data-photo');
+                    // Không set value cho input type="file"
+                  });
+                });
+              </script>
+            </div>
+          </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var editModal = document.getElementById('editSupportModal');
+    editModal.addEventListener('show.bs.modal', function (event) {
+      var button = event.relatedTarget;
+      document.getElementById('support-id').value = button.getAttribute('data-id');
+      document.getElementById('support-name').value = button.getAttribute('data-name');
+      document.getElementById('support-photo').value = button.getAttribute('data-photo');
+      document.getElementById('support-link').value = button.getAttribute('data-link');
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+					</div>
+
+
+
+				</div>
+			</div>
+
+		</div>
+
+		<th:block th:insert="~{Dashboard/fragment/layout :: footer}"></th:block>
+
+</body>

@@ -33,9 +33,20 @@
 				</div>
 			</nav>
 		</div>
+		
+		
 		<div class="container max-w-7xl">
 			<div class="row">
-				<div class=" col-sm-6 col-lg-4 " th:each="product : ${products}">
+			
+			<div class="col-12 mb-2 ">
+			<select class="form-select price-filter" aria-label="Default select example">
+  <option selected> Mặc định</option>
+  <option value="1">Giá thấp đến giá cao</option>
+  <option value="2">Giá cao đến giá thấp</option>
+</select>
+		</div>
+			
+				<div class=" col-sm-6 col-lg-4 mb-2" th:each="product : ${products}"  th:attr="data-price=${product.promotionalPrice != null ? product.promotionalPrice : product.price}">
 					<div class="bg-dark text-light prod-box rounded overflow-hidden position-relative" >
 						<span class="position-absolute bg-danger px-1 m-1 rounded" style="z-index: 1;" th:if="${product.promotionalPrice != null}" th:text="${T(java.lang.Math).round((1 - product.promotionalPrice / product.price) * 100)} + '%'"></span>
 						<div>
@@ -98,7 +109,29 @@
 	</section>
 
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const select = document.querySelector('.price-filter');
+    const productItems = document.querySelectorAll('[data-price]');
 
+    select.addEventListener('change', function () {
+        const selected = this.value;
+
+        const itemsArray = Array.from(productItems);
+
+        if (selected === "1") {
+            itemsArray.sort((a, b) => parseFloat(a.dataset.price) - parseFloat(b.dataset.price));
+        } else if (selected === "2") {
+            itemsArray.sort((a, b) => parseFloat(b.dataset.price) - parseFloat(a.dataset.price));
+        }
+
+        const container = document.querySelector('.row');
+        itemsArray.forEach(item => {
+            container.appendChild(item); 
+        });
+    });
+});
+</script>
 
 	<!-- end food section -->
 

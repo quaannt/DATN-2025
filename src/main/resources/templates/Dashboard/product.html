@@ -55,7 +55,7 @@
 										<div class="col-md-4 form-group">
 											<label for="inputState" class="form-label">Danh mục</label>
 											<select class="form-control" name="category">
-												<option th:each="category : ${categories}" th:value="${category.id}"
+												<option th:each="category : ${categories}" th:value="${category.id}" th:selected="${product.id != 0 and product.category.id == category.id}"
 													th:text="${category.name}"></option>
 											</select>
 										</div>
@@ -107,7 +107,7 @@
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">Danh sách món ăn</h4>
+									<h4 class="card-title">Danh sách sản phẩm</h4>
 								</div>
 								
 								<div class="card-body">

@@ -1,5 +1,8 @@
 package com.example.Controller;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,14 +67,31 @@ public class HomeController {
 	
 	@GetMapping("/products")
 	public String find(Model model, @RequestParam(value = "search", required = false, defaultValue = "") String search) {
-		List<Product> products = productService.findAll();
-		List<Category> categories = categoryService.findAll();
-		model.addAttribute("categories", categories);
-		if(search.length() > 0) {
-			products = products.stream().filter(pd -> pd.getName().contains(search)).toList();
-		}
-		model.addAttribute("products", products);
-		return "User/menu";
+	    List<Product> products = productService.findAll();
+	    products.sort(Comparator.comparing(Product::getId).reversed());
+	    
+	    List<Category> categories = categoryService.findAll();
+	    model.addAttribute("categories", categories);
+
+	    if (!search.isBlank()) {
+	        String[] keywords = search.toLowerCase().split("\\s+");
+
+	        products = products.stream().filter(product -> {
+	            String name = product.getName().toLowerCase();
+
+	            return Arrays.stream(keywords).allMatch(keyword -> {
+	                if (name.contains(keyword)) return true;
+
+	                return Arrays.stream(name.split("\\s+"))
+	                        .anyMatch(word -> levenshtein(word, keyword) <= 2);
+	            });
+	        }).toList();
+	    } else {
+	        products = Collections.emptyList();
+	    }
+	    
+	    model.addAttribute("products", products);
+	    return "User/menu";
 	}
 	
 	@GetMapping("/filter")
@@ -79,6 +99,7 @@ public class HomeController {
 		List<Category> categories = categoryService.findAll();
 		model.addAttribute("categories", categories);
 		List<Product> filteredProducts = productService.findByCategoryId(categoryId);
+		filteredProducts.sort(Comparator.comparing(Product::getId).reversed());
 		model.addAttribute("products", filteredProducts);
 		return "User/menu";
 	}
@@ -88,4 +109,27 @@ public class HomeController {
 		return "User/about-us";
 	}
 
+	public static int levenshtein(String a, String b) {
+	    int[][] dp = new int[a.length() + 1][b.length() + 1];
+
+	    for (int i = 0; i <= a.length(); i++) {
+	        for (int j = 0; j <= b.length(); j++) {
+	            if (i == 0) {
+	                dp[i][j] = j;
+	            } else if (j == 0) {
+	                dp[i][j] = i;
+	            } else if (a.charAt(i - 1) == b.charAt(j - 1)) {
+	                dp[i][j] = dp[i - 1][j - 1];
+	            } else {
+	                dp[i][j] = 1 + Math.min(dp[i - 1][j - 1],
+	                               Math.min(dp[i - 1][j], dp[i][j - 1]));
+	            }
+	        }
+	    }
+
+	    return dp[a.length()][b.length()];
+
+}
+
+	
 }

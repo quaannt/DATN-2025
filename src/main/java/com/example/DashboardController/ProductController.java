@@ -32,6 +32,7 @@ import com.example.Entity.Category;
 import com.example.Entity.OrderProduct;
 import com.example.Entity.PinnedProduct;
 import com.example.Entity.Product;
+import com.example.Entity.Review;
 import com.example.Entity.User;
 import com.example.Repository.CategoryRepository;
 import com.example.Service.CartItemService;
@@ -39,6 +40,7 @@ import com.example.Service.CategoryService;
 import com.example.Service.OrderProductService;
 import com.example.Service.PinnedProductService;
 import com.example.Service.ProductService;
+import com.example.Service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
@@ -64,6 +66,9 @@ public class ProductController {
 	
 	@Autowired
 	CartItemService cartItemService;
+	
+	@Autowired
+	ReviewService reviewService;
 	
     @Value("${upload.dir}")
     private String uploadDir;
@@ -161,6 +166,14 @@ public class ProductController {
 			}
 			Product product = productService.findById(id).orElse(null);
 			product.getCartItems().clear(); 
+			
+			List<Review> reviews = reviewService.findByProductId(id);
+			for(Review review : reviews) {
+				reviewService.deleteById(review.getId());
+			}
+			
+			pinnedProductService.deleteByProductId(id);
+			
 			productService.deleteById(id);
 			redirectAttributes.addFlashAttribute("success", "Xóa sản phẩm thành công!");
 			return "redirect:/dashboard/product";
