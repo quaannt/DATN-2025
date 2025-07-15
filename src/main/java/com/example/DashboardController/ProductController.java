@@ -172,8 +172,12 @@ public class ProductController {
 				reviewService.deleteById(review.getId());
 			}
 			
+			PinnedProduct pinProduct = pinnedProductService.findByProductId(id);
+			if(pinProduct != null){
+
 			pinnedProductService.deleteByProductId(id);
 			
+			}
 			productService.deleteById(id);
 			redirectAttributes.addFlashAttribute("success", "Xóa sản phẩm thành công!");
 			return "redirect:/dashboard/product";

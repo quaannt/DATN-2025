@@ -297,7 +297,7 @@ to {
 		</nav>
 
 		<!-- Mobile menu, show/hide based on menu open state. -->
-		<div class="bg-dark p-2 ">
+		<div class=" p-2 bg-dark" >
 			<div class="container d-flex justify-content-end ">
 				 <a
 					th:unless="${session.user != null}" href="/login"
@@ -352,103 +352,68 @@ to {
 
 	
 	</div>
-	
-	<footer class="text-center text-lg-start text-white bg-dark">
-		<div class="container p-4 pb-0">
-			<section class="">
-				<div class="row">
-					<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-						<h6 class="text-uppercase mb-4 font-weight-bold">Clock</h6>
-						<p>Chúng tôi cam kết mang đến những sản phẩm đồng hồ chính hãng, bảo hành uy tín và dịch vụ hậu mãi tận tâm.</p>
-					</div>
-					<hr class="w-100 clearfix d-md-none" />
+<footer class="text-light bg-dark">
+  <div class="container max-w-7xl py-5">
+    <div class="row g-4">
 
-					<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
-						<h6 class="text-uppercase mb-4 font-weight-bold">Products</h6>
-						<p>
-							<a class="text-white">MDBootstrap</a>
-						</p>
-						<p>
-							<a class="text-white">MDWordPress</a>
-						</p>
-						<p>
-							<a class="text-white">BrandFlow</a>
-						</p>
-						<p>
-							<a class="text-white">Bootstrap Angular</a>
-						</p>
-					</div>
+      <!-- Logo + giới thiệu -->
+      <div class="col-md-4">
+        <h3 class="fw-bold text-brown fs-3">Clock Shop</h3>
+        <p>Đồng hành cùng thời gian – chuyên cung cấp đồng hồ điện tử chính hãng, thiết kế hiện đại, bảo hành lâu dài và giá cả cạnh tranh.</p>
+        <p><i class="fas fa-map-marker-alt me-2"></i>123 Đồng Hồ, Hải Châu, Đà Nẵng</p>
+        <p><i class="fas fa-phone me-2"></i>+84 334 366 722</p>
+        <p><i class="fas fa-envelope me-2"></i>support@clockshop.vn</p>
+      </div>
 
-					<hr class="w-100 clearfix d-md-none" />
+      <!-- Danh mục sản phẩm -->
+      <div class="col-md-2">
+        <h5 class="text-uppercase fw-bold mb-3 text-brown">Sản phẩm</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-decoration-none text-light">Đồng hồ nam</a></li>
+          <li><a href="#" class="text-decoration-none text-light">Đồng hồ nữ</a></li>
+          <li><a href="#" class="text-decoration-none text-light">Đồng hồ đôi</a></li>
+          <li><a href="#" class="text-decoration-none text-light">Smartwatch</a></li>
+        </ul>
+      </div>
 
-					<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
-						<h6 class="text-uppercase mb-4 font-weight-bold">Useful links
-						</h6>
-						<p>
-							<a class="text-white">Your Account</a>
-						</p>
-						<p>
-							<a class="text-white">Become an Affiliate</a>
-						</p>
-						<p>
-							<a class="text-white">Shipping Rates</a>
-						</p>
-						<p>
-							<a class="text-white">Help</a>
-						</p>
-					</div>
+      <!-- Chính sách & hỗ trợ -->
+      <div class="col-md-2">
+        <h5 class="text-uppercase fw-bold mb-3 text-brown">Hỗ trợ</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-decoration-none text-light">Chính sách bảo hành</a></li>
+          <li><a href="#" class="text-decoration-none text-light">Chính sách đổi trả</a></li>
+          <li><a href="#" class="text-decoration-none text-light">Giao hàng & thanh toán</a></li>
+          <li><a href="#" class="text-decoration-none text-light">Liên hệ</a></li>
+        </ul>
+      </div>
 
-					<hr class="w-100 clearfix d-md-none" />
+      <!-- Đăng ký khuyến mãi -->
+      <div class="col-md-4">
+        <h5 class="text-uppercase fw-bold mb-3 text-brown">Nhận khuyến mãi</h5>
+        <p>Nhập email để nhận thông tin ưu đãi và sản phẩm mới mỗi tuần!</p>
+        <form class="d-flex">
+          <input type="email" class="form-control me-2 rounded-3" placeholder="Email của bạn" required>
+          <button class="btn btn-brown text-dark fw-bold rounded-3">Gửi</button>
+        </form>
+        <div class="mt-4">
+          <a href="#" class="text-light me-3 fs-5"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-light me-3 fs-5"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-light me-3 fs-5"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="text-light fs-5"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
 
-					<div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-						<h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
-						<p>
-							<i class="fas fa-home mr-3"></i>Đà Nẵng
-						</p>
-						<p>
-							<i class="fas fa-envelope mr-3"></i>clock@gmail.com
-						</p>
-						<p>
-							<i class="fas fa-phone mr-3"></i> +84 334366722
-						</p>
-						<p>
-							<i class="fas fa-print mr-3"></i> +84 559159503
-						</p>
-					</div>
-				</div>
-			</section>
+    </div>
 
-			<hr class="my-3">
+    <hr class="border-light my-4">
 
-			<section class="p-3 pt-0">
-				<div class="row d-flex align-items-center">
-					<div class="col-md-7 col-lg-8 text-center text-md-start">
-						<div class="p-3">
-							© 2020 Copyright: <a class="text-white"
-								href="https://mdbootstrap.com/">MDBootstrap.com</a>
-						</div>
-					</div>
-					<div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
-						<!-- Facebook -->
-						<a class="btn btn-outline-light btn-floating m-1 text-white"
-							role="button"><i class="fab fa-facebook-f"></i></a>
+    <!-- Bản quyền -->
+    <div class="text-center">
+      <p class="mb-0">&copy; 2025 <span class="text-brown">Clock Shop</span> – All Rights Reserved</p>
+    </div>
+  </div>
+</footer>
 
-						<!-- Twitter -->
-						<a class="btn btn-outline-light btn-floating m-1 text-white"
-							role="button"><i class="fab fa-twitter"></i></a>
-
-						<!-- Google -->
-						<a class="btn btn-outline-light btn-floating m-1 text-white"
-							role="button"><i class="fab fa-google"></i></a>
-
-						<!-- Instagram -->
-						<a class="btn btn-outline-light btn-floating m-1 text-white"
-							role="button"><i class="fab fa-instagram"></i></a>
-					</div>
-				</div>
-			</section>
-		</div>
-	</footer>
 
 
 </th:block>

@@ -14,6 +14,11 @@ public class PinnedProductService {
 	@Autowired
 	PinnedProductRepository pinnedProductRepository; 
 	
+	public PinnedProduct findByProductId(int productId){
+		return  pinnedProductRepository.findByProductId(productId);
+	}
+	
+	
 	public void save(PinnedProduct pinnedProduct) {
 		pinnedProductRepository.save(pinnedProduct);
 	}

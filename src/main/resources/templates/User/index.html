@@ -89,15 +89,18 @@
 
 	<section>
 
-		<div class="text-center mb-3">
-			<h2 style="font-weight: 700; font-size: 28px;" class="text-brown">Sản phẩm yêu thích</h2>
-		</div>
+		
 
-		<div class="container max-w-7xl">
+		<div class="container  rounded p-2 max-w-7xl" style="background-color: #a70606">
+		
+	
 			<div class="row">
+			<div class="col-12">
+				<img src="/User/images/sale-banner.png" class="w-100 mb-2 rounded" style="height: 100px; object-fit: cover;">
+			</div>
 				<div class=" col-sm-6 col-lg-4" th:each="pinned : ${pinnedProducts}">
 					<div class="bg-dark text-light prod-box rounded overflow-hidden position-relative" >
-					<span class="position-absolute bg-danger px-1 m-1 rounded" th:if="${pinned.product.promotionalPrice != null}" th:text="${T(java.lang.Math).round((1 - pinned.product.promotionalPrice / pinned.product.price) * 100)} + '%'"></span>
+					<span class="position-absolute bg-danger px-1 m-1 rounded" style="z-index: 1" th:if="${pinned.product.promotionalPrice != null}" th:text="${T(java.lang.Math).round((1 - pinned.product.promotionalPrice / pinned.product.price) * 100)} + '%'"></span>
 						
 						<div>
 							<div class="img-box prod-header"
@@ -154,15 +157,20 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="d-flex justify-center mt-2">
-				<a style="border-radius: 20px;" class="btn btn-brown" href="/menu">xem thêm <i
+				<a class="btn btn-light" href="/menu">xem thêm <i
 						class="fa-solid fa-angles-right"></i></a>
 			</div>
+			
+			</div>
+			
+			
 
 	</section>
 
-	<section class="about_section layout_padding bg-dark text-light mt-5 p-4">
-		<div class="container  ">
+	<section class="about_section layout_padding  text-light mt-5 " style="background-color: black;">
+		<div class="container max-w-7xl">
 
 			<div class="row">
 				<div class="col-md-6 ">
@@ -189,17 +197,77 @@
 			</div>
 		</div>
 	</section>
+	
+	
+	<section class="pt-5">
+  <div class="container max-w-7xl ">
+    <h2 class="text-center fw-bold mb-5 fs-2">Tại sao chọn Clock Shop?</h2>
+    <div class="row text-center">
+      <div class="col-md-4 mb-4">
+       <div class=" shadow p-2 rounded">
+        <i class="fas fa-shield-alt fa-3x text-brown mb-3 "></i>
+        <h5 class="fw-bold">Chính hãng 100%</h5>
+        <p>Cam kết cung cấp sản phẩm đồng hồ điện tử chính hãng từ các thương hiệu uy tín toàn cầu.</p>
+       </div>
+      </div>
+      <div class="col-md-4 mb-4 ">
+        <div class="shadow p-2 rounded">
+        <i class="fas fa-undo-alt fa-3x text-brown mb-3"></i>
+        <h5 class="fw-bold">Bảo hành & đổi trả</h5>
+        <p>Bảo hành lên đến 12 tháng và hỗ trợ đổi trả dễ dàng trong vòng 7 ngày nếu có lỗi từ nhà sản xuất.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4 ">
+       <div class="shadow p-2 rounded">
+        <i class="fas fa-truck-fast fa-3x text-brown mb-3"></i>
+        <h5 class="fw-bold">Giao hàng toàn quốc</h5>
+        <p>Giao hàng nhanh chóng và miễn phí với đơn hàng từ 1 triệu đồng trở lên.</p>
+       </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 	<section class="">
-		<div class="container py-24 sm:py-32 ">
-			<div class="mx-auto max-w-7xl px-6 lg:px-8">
-				<div class="mx-auto lg:mx-0">
+		<div class="container max-w-7xl py-24 sm:py-32 ">
+			<div class="mx-auto max-w-7xl px-6 lg:px-8 ">
+				<div class="mx-auto lg:mx-0 ">
 					<h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Chúng tôi là ai</h2>
 					<p class="mt-2 text-lg leading-8 text-gray-600">tất cả thông tin về chúng tôi tại cửa hàng</p>
 				</div>
 				<div
 					class=" mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-					<article class="flex max-w-xl flex-col items-start justify-between bg-light p-3"
+					<article class="shadow-sm flex max-w-xl flex-col items-start justify-between bg-light p-3"
+						style="border-radius: 20px;">
+						<div class=" flex items-center gap-x-4 text-xs">
+							<time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+							<a href="#"
+								class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
+						</div>
+						<div class="group relative">
+							<h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+								<h5>
+									<span class="absolute inset-0"></span>
+									Admin
+								</h5>
+							</h3>
+						</div>
+						<div class="relative mt-8 flex items-center gap-x-4">
+							<img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+								alt="" class="h-20 w-20 rounded-full bg-gray-50">
+							<div class="text-sm leading-6">
+								<p class="font-semibold text-gray-900">
+									<a style="font-weight: 700; font-size: larger;">
+										<span class="absolute inset-0"></span>
+										Michael Foster
+									</a>
+								</p>
+								<p class="text-gray-600">Co-Founder / CTO</p>
+							</div>
+						</div>
+					</article>
+
+					<article class="shadow-sm flex max-w-xl flex-col items-start justify-between bg-light p-3"
 						style="border-radius: 20px;">
 						<div class="flex items-center gap-x-4 text-xs">
 							<time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
@@ -229,37 +297,7 @@
 						</div>
 					</article>
 
-					<article class="flex max-w-xl flex-col items-start justify-between bg-light p-3"
-						style="border-radius: 20px;">
-						<div class="flex items-center gap-x-4 text-xs">
-							<time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
-							<a href="#"
-								class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a>
-						</div>
-						<div class="group relative">
-							<h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-								<h5>
-									<span class="absolute inset-0"></span>
-									Admin
-								</h5>
-							</h3>
-						</div>
-						<div class="relative mt-8 flex items-center gap-x-4">
-							<img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-								alt="" class="h-20 w-20 rounded-full bg-gray-50">
-							<div class="text-sm leading-6">
-								<p class="font-semibold text-gray-900">
-									<a style="font-weight: 700; font-size: larger;">
-										<span class="absolute inset-0"></span>
-										Michael Foster
-									</a>
-								</p>
-								<p class="text-gray-600">Co-Founder / CTO</p>
-							</div>
-						</div>
-					</article>
-
-					<article class="flex max-w-xl flex-col items-start justify-between bg-light p-3"
+					<article class=" shadow-sm flex max-w-xl flex-col items-start justify-between bg-light p-3"
 						style="border-radius: 20px;">
 						<div class="flex items-center gap-x-4 text-xs">
 							<time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
