@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.Config.UploadService;
 import com.example.Entity.CartItem;
 import com.example.Entity.Category;
+import com.example.Entity.OrderDetail;
 import com.example.Entity.OrderProduct;
 import com.example.Entity.PinnedProduct;
 import com.example.Entity.Product;
@@ -37,6 +38,7 @@ import com.example.Entity.User;
 import com.example.Repository.CategoryRepository;
 import com.example.Service.CartItemService;
 import com.example.Service.CategoryService;
+import com.example.Service.OrderDetailService;
 import com.example.Service.OrderProductService;
 import com.example.Service.PinnedProductService;
 import com.example.Service.ProductService;
@@ -69,6 +71,9 @@ public class ProductController {
 	
 	@Autowired
 	ReviewService reviewService;
+	
+	@Autowired
+	OrderDetailService orderDetailService;
 	
     @Value("${upload.dir}")
     private String uploadDir;
@@ -178,6 +183,14 @@ public class ProductController {
 			pinnedProductService.deleteByProductId(id);
 			
 			}
+			
+			List<OrderDetail> orderDetails = orderDetailService.findAllByProductId(product.getId());
+			for(OrderDetail orderDetail : orderDetails) {
+				orderDetail.setProduct(null);
+				orderDetailService.save(orderDetail);
+			}
+			
+			
 			productService.deleteById(id);
 			redirectAttributes.addFlashAttribute("success", "Xóa sản phẩm thành công!");
 			return "redirect:/dashboard/product";

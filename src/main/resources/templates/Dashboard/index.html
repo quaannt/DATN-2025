@@ -138,6 +138,103 @@ Coded by www.creative-tim.com
               </div>
             </div>
           </div>
+          
+          
+             <div class="col-lg-6">
+             <div class="card card-stats">
+             	<h6 class="card-header">Tổng tất cả doanh thu</h6>
+             <div class="card-body">
+             	<h3 class="text-primary" th:text="${#numbers.formatDecimal(totalPaymentAllTime, 0, 'COMMA', 0 , 'POINT')} + 'VND'"></h3>
+             </div>
+             </div>
+            </div>
+            
+              <div class="col-lg-6">
+             <div class="card card-stats">
+             	<h6 class="card-header">Tổng doanh thu trong tháng <span th:text="${currentMonth}"></span></h6>
+             <div class="card-body">
+             	<h3 class="text-success" th:text="${#numbers.formatDecimal(totalPaymentInMonth, 0, 'COMMA', 0 , 'POINT')} + 'VND'"></h3>
+             </div>
+             </div>
+            </div>
+          
+          <div class="col-lg-6">
+          <div class="card card-stats">
+          	
+          	<h5 class="card-header">Top sản phẩm bán chạy</h5>
+              <div class="card-body ">
+              
+              <table class="table" id="example">
+  <thead>
+    <tr>
+      <th scope="col">Tên sản phẩm</th>
+       <th scope="col">Giá</th>
+      <th scope="col">Đã bán</th>
+       <th scope="col">Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="product : ${top5Products}">
+      <td th:text="${product.product.name}">Mark</td>
+      <td >
+      	<span th:text="${#numbers.formatDecimal(product.product.price, 0, 'COMMA', 0, 'POINT') + 'VND'}"  th:styleappend="${product.product.promotionalPrice != null ? 'text-decoration: line-through;' : ''}"></span>
+      	<span th:text="${#numbers.formatDecimal(product.product.promotionalPrice, 0, 'COMMA', 0, 'POINT') + 'VND'}" th:if="${product.product.promotionalPrice != null}"></span>
+      </td>
+      <td th:text="${product.totalSold}">@mdo</td>
+      <td>
+     <a th:href="@{/dashboard/product/{id} (id=${product.product.id})}" class="btn btn-primary">Xem SP</a>
+      </td>
+    </tr>
+   
+  </tbody>
+</table>
+              
+              </div>
+             
+            </div>
+          </div>
+          
+          
+         
+       
+       
+       <div class="col-lg-6">
+          <div class="card card-stats">
+          	
+          	<h5 class="card-header">Top sản phẩm đươc đánh giá nhiều nhất</h5>
+              <div class="card-body ">
+              
+              <table class="table" id="example2">
+  <thead>
+    <tr>
+      <th scope="col">Tên sản phẩm</th>
+       <th scope="col">Giá</th>
+      <th scope="col">Số đánh giá</th>
+       <th scope="col">Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="product : ${topReviewedProducts}">
+      <td th:text="${product.product.name}">Mark</td>
+      <td >
+      	<span th:text="${#numbers.formatDecimal(product.product.price, 0, 'COMMA', 0, 'POINT') + 'VND'}"  th:styleappend="${product.product.promotionalPrice != null ? 'text-decoration: line-through;' : ''}"></span>
+      	<span th:text="${#numbers.formatDecimal(product.product.promotionalPrice, 0, 'COMMA', 0, 'POINT') + 'VND'}" th:if="${product.product.promotionalPrice != null}"></span>
+      </td>
+      <td th:text="${product.reviewCount}">@mdo</td>
+      <td>
+     <a th:href="@{/dashboard/product/{id} (id=${product.product.id})}" class="btn btn-primary">Xem SP</a>
+      </td>
+    </tr>
+   
+  </tbody>
+</table>
+              
+              </div>
+             
+            </div>
+          </div>
+       
+       
         </div>
         
       </div>

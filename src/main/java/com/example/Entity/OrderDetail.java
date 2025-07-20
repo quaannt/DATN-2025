@@ -48,6 +48,10 @@ public class OrderDetail {
 	@JoinColumn(name = "order_product_id")
 	private OrderProduct orderProduct;
 	
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Product product;
+	
 	
 	
 	@OneToMany(mappedBy = "orderDetail",  fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

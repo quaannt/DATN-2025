@@ -28,6 +28,10 @@ public class OrderDetailService {
 		return orderDetailRepository.findByOrderId(orderId);
 	}
 	
+	public List<OrderDetail> findAllByProductId(int productId){
+		return orderDetailRepository.findAllByProductId(productId);
+	}
+	
 	public void updateReviewed(int orderDetailId, boolean reviewed) {
 		Optional<OrderDetail> orderDetailOptional = orderDetailRepository.findById(orderDetailId);
 		orderDetailOptional.ifPresent(orderDetail ->{

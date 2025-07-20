@@ -46,7 +46,9 @@
 </select>
 		</div>
 			
-				<div class=" col-sm-6 col-lg-4 mb-2" th:each="product : ${products}"  th:attr="data-price=${product.promotionalPrice != null ? product.promotionalPrice : product.price}">
+				<div class=" col-sm-6 col-lg-4 mb-2"   th:each="product, iterStat : ${products}"
+     th:attr="data-price=${product.promotionalPrice != null ? product.promotionalPrice : product.price}, 
+              data-index=${iterStat.index}">
 					<div class="bg-dark text-light prod-box rounded overflow-hidden position-relative" >
 						<span class="position-absolute bg-danger px-1 m-1 rounded" style="z-index: 1;" th:if="${product.promotionalPrice != null}" th:text="${T(java.lang.Math).round((1 - product.promotionalPrice / product.price) * 100)} + '%'"></span>
 						<div>
@@ -103,10 +105,46 @@
 						</div>
 					</div>
 				</div>
-			</div>
+				
+				
 
+			</div>
+<div class="text-center mt-3">
+    <button id="loadMoreBtn" class="btn btn-outline-brown">Xem thêm</button>
+</div>
 
 	</section>
+	
+	<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const products = document.querySelectorAll('[data-index]');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    let currentVisible = 0;
+    const step = 9;
+
+    function updateVisibleProducts() {
+        for (let i = 0; i < products.length; i++) {
+            if (i < currentVisible + step) {
+                products[i].style.display = 'block';
+            } else {
+                products[i].style.display = 'none';
+            }
+        }
+
+        currentVisible += step;
+
+        if (currentVisible >= products.length) {
+            loadMoreBtn.style.display = 'none';
+        }
+    }
+
+    // Bắt đầu hiển thị 9 sản phẩm
+    updateVisibleProducts();
+
+    loadMoreBtn.addEventListener('click', updateVisibleProducts);
+});
+</script>
+	
 
 
 <script>

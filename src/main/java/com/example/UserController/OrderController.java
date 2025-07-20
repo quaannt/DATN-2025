@@ -204,6 +204,7 @@ public class OrderController {
 		            OrderProduct orderProduct = new OrderProduct();
 		            orderProductService.createOrderProduct(orderProduct, product);
 		            orderDetail.setOrderProduct(orderProduct);
+		            orderDetail.setProduct(product);
 		            
 		            orderDetail.setQuantity(quantity);
 		            Double totalAmountProduct = orderDetail.calculateTotalAmount();
